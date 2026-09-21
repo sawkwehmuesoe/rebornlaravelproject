@@ -1,0 +1,232 @@
+=>Create Table  ( app > Models )
+
+Method 1 ( Model / Table )
+php artisan make:model Student -m 
+or
+php artisan make:model Student --migration 
+
+=Method 2 ( Table )
+(i) 
+php artisan make:migration create_students_table 
+(ii)
+php artisan make:migration create_workers_table --create="workders"
+
+
+-----------------------------------------------------------
+database connect -> create model -> create migrate -> migrate > Mess Assignments > Migrate
+-----------------------------------------------------------
+
+
+.env 
+
+DB_CONNECTION=mysql 
+DB_HOST=127.0.0.1 
+DB_PORT=3306 
+DB_DATABASE=lessonone 
+DB_USERNAME=root 
+DB_PASSWORD= 
+
+mysql -u root -p 
+mydatabasep@sswo0rd2023A 
+
+CREATE DATABASE lessonone;
+
+SHOW DATABASES;
+
+-----------------------------------------------------------
+
+=>Available Column's Data Type  ( database > migrations )
+
+$table->id();
+$table->increments('id');
+$table->bigIncrements('id');
+
+$table->integer('id');
+$table->bigInteger('id');
+$table->unsignedInteger('id');
+$table->unsignedBigInteger('id');
+
+$table->tinyInteger('status');
+$table->smallInteger('votes');
+
+$table->binary('photo');
+$table->boolean('confirmed');
+
+$table->char('name',30);
+$table->string('name');
+$table->string('name',100);
+$table->text('description');
+$table->tinyText('notes');
+$table->mediumText('content');
+$table->longText('article');
+
+$table->time('bookingtime');
+$table->date('created_at');
+$table->year('birthday');
+
+$table->timestamps();
+$table->timestamp('action'); 
+
+$table->decimal('amount',precision=10,scale=2);
+$table->float('measure',8,2);
+
+$table->set('flavors',['strawberry','vanilla']);
+$table->enum('payment',['visa','mpu','cod','kpay','wave']);
+
+$table->json('multiphones');
+
+$table->ipAddress('visitor'); // 192.168.1.10
+$table->macAddress('device');
+
+-----------------------------------------------------------
+=> Check Migrate status 
+php artisan migrate:status
+
+=> Migrate Table to Database 
+php artisan migrate
+
+=> Check before migrate by pretend
+php artisan migrate --pretend
+
+=>Undo Migration 
+php aritsan migrate:rollback 
+
+=>Check before rollback by pretend 
+php artisan migrate:rollback --pretend 
+
+=>Undo Migration by step 
+php artisan migrate:rollback --step=2
+
+=>Delete all tables(auto rollback)
+php artisan migrate:reset 
+
+=>Delete all datas(auto rollback / auto migrate)
+php artisan migrate:refresh 
+
+=>Delete all datas (auto rollback / auto migrate) roll back the last 5
+php artisan migrate:refresh --step=5
+
+-----------------------------------------------------------
+
+=> Add New Columns  
+
+php artisan make:migration add_city_to_shoppers_table --table=shoppers
+
+=> Sort Column 
+$table->string('city')->after('phone'); 
+
+=> down() (for rollback)
+$table->dropColumn('city'); 
+
+=> Drop Column 
+php artisan make:migration remove_age_to_students_table --table=students 
+=>up()
+$table->dropColumn('age');
+=>down()
+$table->int('age')
+
+
+=>Resume Column     renameColumn(from,to)
+php artisan make:migration rename_students_column --table=students
+=>up()
+$table->renameColumn('phonenumber','phone');
+$table->renameColumn('address','city');
+=>down()
+$table->renameColumn('phone','phonenumber');
+$table->renameColumn('city','address');
+
+-----------------------------------------------------------
+
+=> Rename Table  rename(from,to)
+
+php artisan make:migration rename_cu_to_customers_table --table=cu
+=>up()
+Schema::rename('cu','customers')
+
+=>down()
+Schema::rename('customer','cu')
+
+-----------------------------------------------------------
+
+=> Default Value
+
+php artisan make:migration create_books_table --create="books"
+=>up()
+Schema::create('books',function(Blueprint $table){
+    $table->id;
+    $table->string('title');
+    $table->tinyInteger('status')->default('1');
+    $table->enum('copyright',['0','1'])->default('0');
+    $table->enum('solidfile',array('pdf','txt','.html'))->default('pdf');
+    $table->timestamp('created-at')->default(DB::raw('CURRENT_TIMESTAMP'));
+    $table->timestamp('updated-at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    $table->timestamp('created-time')->useCurrent();
+    $table->timestamp('updated-time')->useCurrent()->useCurrentOnUpdate();
+})
+
+-----------------------------------------------------------
+
+Mess Assignments ( Model > Book )
+
+php artisan make:model Book 
+
+protected $table = "books";
+protected $primaryKey = 'id'; 
+
+=> Customize Timestamps 
+const CREATED_AT = 'created_date';
+const UPDATED_AT = 'updated_date';
+
+=> Method 1 
+
+protected $fillable = [
+        'title',
+        'status',
+        'copyright'
+        'solidfile',
+        'created_time',
+        'updated_time'
+];
+
+
+=> Method 2 
+
+protected $guarded = [];
+
+-----------------------------------------------------------
+
+=> DB:: CRUD 
+
+CRUD 
+
+DB::raw();
+
+DB::select();
+DB::insert();
+DB::update();
+DB::delete();
+
+DB::table()->select()->get();
+DB::table()->selectRaw()->get();
+
+-----------------------------------------------------------
+
+=>Trigger 
+
+php artisan make:migration create_triggertablename_trigger 
+
+public function up():void
+{
+    DB::unprepared(
+        CREATE TRIGGER triggername_bfc
+        BEFORE INSERT ON tablename FOR EACH ROW 
+        BEGIN
+
+        END
+    )
+}
+
+public function down():void
+{
+    \DB::unprepared("DROP TRIGGER IF EXISTS triggername_bfc");
+}

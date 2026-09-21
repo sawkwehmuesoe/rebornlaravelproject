@@ -1,0 +1,98 @@
+=>Create Table  ( app > Models )
+
+Method 1 ( Model )
+php artisan make:model Student 
+
+-----------------------------------------------------------
+database connect -> create model -> create migrate -> migrate > Mess Assignments > Migrate
+-----------------------------------------------------------
+
+=> Inspection Models to Database Table 
+
+php artisan model:show Student 
+
+-----------------------------------------------------------
+
+Mess Assignments ( Model > Book )
+
+php artisan make:model Book 
+
+protected $table = "books";
+protected $primaryKey = 'id'; 
+
+=> Customize Timestamps 
+const CREATED_AT = 'created_date';
+const UPDATED_AT = 'updated_date';
+
+=> Method 1 
+
+protected $fillable = [
+        'title',
+        'status',
+        'copyright'
+        'solidfile',
+        'created_time',
+        'updated_time'
+];
+
+
+=> Method 2 
+
+protected $guarded = [];
+
+----------------------------------------------------- 
+
+=> Retrieving Data from model (Single / Multi)
+
+= Multi 
+
+$books = Book::all();
+return $books;
+
+foreach($books as $book){
+    echo "$book->title <br/> $book->copyright <hr/>";
+}
+
+(Method 1) 
+
+$book = Book::where('invoiceid',5)->get();
+return $book; 
+
+echo "$book->title <br/> $book->copyright <hr/>";
+
+
+=asc/desc 
+$book = Book::where('city',"yangon")->orderBy('id','asc')->get();
+return $book;
+
+$book = Book::where('city',"yangon")->orderBy('id','desc')->get();
+return $book;
+
+$book = Book::where('city',"yangon")->orderByDesc('id')->get();
+return $book;
+
+-------------------------------------
+
+= Single 
+
+$book = Book::find(5);
+return $book;
+
+echo "$book->title <br/> $book->copyright <hr/>";
+
+-----
+
+(Method 2) 
+
+$book = Book::findOrFail(5);
+return $book; 
+
+echo "$book->title <br/> $book->copyright <hr/>";
+
+-----
+
+
+----------------------------------------------------------------------
+
+
+

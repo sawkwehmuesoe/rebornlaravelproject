@@ -1,0 +1,100 @@
+PHP Framework 
+
+classic php 
+classic python  
+classic javascript 
+
+project experience 
+
+laravel features ++++
+email 
+qr code 
+mapping 
+cart 
+chart 
+opt
+
+
+laravel 
+mvc 
+crud 
+pro + classic php + features 
+
+plug in white paper 
+
+--------------------------------------------
+=> required applications
+php 
+composer 
+mysql 
+webserver 
+npm 
+nodejs
+
+xmapp
+
+
+laravel official site 
+https://laravel.com/
+
+=> Download Laravel 
+composer create-project laravel/laravel projectname  (recommanded)
+
+composer global require laravel/installer
+
+
+
+=>MVC Framework (Model,View,Controller)
+
+= Model
+it's work with database (Select,Insert,Update,Delete)
+
+= View 
+A view is that part of the application that represents the presentation of data HTML CSS codes for enduser see.
+
+= Controller
+
+The controller mediates between Models and Views 
+The Controller receives input from the user , process request (GET,POST,PUT,DELETE)
+
+
+--------------------------------------------------------------- 
+
+=> Folder and File Structures 
+
+app > Models 
+database > migrations
+
+resources > views
+
+
+app > Http > Controller 
+
+
+public > (for images / custom css / custom js)
+
+routes > web.php (or) routes > api.php
+
+.evn
+
+
+--------------------------------------------------------------- 
+
+=> Run Project 
+
+php artisan serve 
+
+=> Stop Project  (503 error)
+php artisan down 
+
+    => Stop Project (by redirect)
+        php artisan down --redirect = / https://google.com
+
+=> Resume Project 
+php artisan up
+
+--------------------------------------------------------------- 
+
+localhost:8000
+
+
