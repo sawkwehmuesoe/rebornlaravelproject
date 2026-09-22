@@ -1,0 +1,32 @@
+=>Route
+
+route > web.php (or) routes > api.php
+
+=>Avaliable Router Method 
+
+Route::get(uri,callback);
+
+Route::post(uri,callback);
+
+Route::put(uri,callback);
+Route::patch(uri,callback);
+
+Route::delete(uri,callback);
+
+Route::options(uri,callback);
+
+-----------------------------------------
+
+=>Basic Routing 
+
+
+
+-----------------------------------------
+
+=>Redirect Routing 
+
+=>Routing with Parameter 
+
+=>Routing with Single Parameter 
+
+=>Routing with Multiple Parameter 

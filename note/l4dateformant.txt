@@ -131,4 +131,4 @@ echo Carbon::now()->tomorrow()->diffForHumans(); // 2 hours from now
 ->weekly(1,'8:20'); // Run the task every week on Monday at 8 am 
 
 ->monthly();
-->nomthly(4,'15:00'); // Run the task every week on 4th at 3pm
+->monthly(4,'15:00'); // Run the task every week on 4th at 3pm

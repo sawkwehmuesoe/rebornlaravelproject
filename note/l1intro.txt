@@ -88,7 +88,7 @@ php artisan serve
 php artisan down 
 
     => Stop Project (by redirect)
-        php artisan down --redirect = / https://google.com
+        php artisan down --redirect=/https://google.com
 
 => Resume Project 
 php artisan up
@@ -97,4 +97,23 @@ php artisan up
 
 localhost:8000
 
+php timezone 
+
+--------------------------------------------------------------- 
+=> New Key Generate
+
+php artisan key:generate
+
+php artisan key:generate --show
+
+------------------------------------------
+
+php artisan route:clear
+php artisan route:cache 
+php artisan config:clear (setting effect)
+php artisan config:cache 
+
+php artisan optimize (for route and config cache file)
+( php artisan route:cache 
+php artisan config:cache )
 
