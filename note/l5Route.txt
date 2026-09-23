@@ -1,0 +1,99 @@
+=>Route
+
+route > web.php (or) routes > api.php
+
+=>Avaliable Router Method 
+
+Route::get(uri,callback);
+
+Route::post(uri,callback);
+
+Route::put(uri,callback);
+Route::patch(uri,callback);
+
+Route::delete(uri,callback);
+
+Route::options(uri,callback);
+
+-----------------------------------------
+
+=>Basic Routing 
+
+
+
+-----------------------------------------
+
+=>Redirect Routing 
+
+=>Routing with Parameter 
+
+=>Routing with Single Parameter 
+
+=>Routing with Multiple Parameter 
+-----------------------------------------
+
+=> Naming Route 
+
+Route::get('/profile',function(){
+    return view("myprofile");
+})->name("prof");
+
+route('routename') -> in blade.php 
+
+-----------------------------------------
+
+=> Check route list 
+
+php artisan route:list 		// a to z 
+php artisan route:list -r   // z to a
+
+-----------------------------------------
+
+=> Check route list by path
+
+	php artisan route:list --path=about
+	php artisan route:list --path=about -r
+	php artisan route:list --path=company
+
+=> Check route list by method
+
+	php artisan route:list --method=get -r
+	php artisan route:list --method=post
+
+-----------------------------------------
+
+=> Route with Controller
+
+Route::get('/students',[\App\Http\Controllers\StudentsController::class,'index'])->name('students.index'); 
+
+(or)
+
+use App\Http\Controllers\StudentsController;
+
+Route::get('/students',[StudentsController::class,'index'])->name('students.index');
+
+-----------------------------------------
+
+=>Route Group 
+
+Route::group(['prefix'=>'students'],function(){
+    Route::get('/',[\App\Http\Controllers\StudentsController::class,'index'])->name('students.index');
+    Route::get('/show',[\App\Http\Controllers\StudentsController::class,'show'])->name('students.show');
+    Route::get('/edit',[\App\Http\Controllers\StudentsController::class,'edit'])->name('students.edit');
+});
+
+Route::group(['prefix'=>'students'],function(){
+    Route::get('/',[StudentsController::class,'index'])->name('students.index');
+    Route::get('/show',[StudentsController::class,'show'])->name('students.show');
+    Route::get('/edit',[StudentsController::class,'edit'])->name('students.edit');
+});
+
+-----------------------------------------
+
+=> Route Name
+
+Route::name('students.')->group(function(){
+    Route::get('/students',[StudentsController::class,'index'])->name('index');
+    Route::get('/students/show',[StudentsController::class,'show'])->name('show');
+    Route::get('/students/edit',[StudentsController::class,'edit'])->name('edit');
+});

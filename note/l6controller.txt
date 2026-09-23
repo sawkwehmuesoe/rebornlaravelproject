@@ -1,0 +1,42 @@
+=>Controller
+
+php artisan make:controller StudentsController 
+
+
+class StudentsController{
+	
+	public function index(){
+		all student
+	}
+
+	public function create(){
+		single create
+	}
+
+	public function show($id){
+		fetch single data
+	}
+
+	public function edit($id){
+		fetch single data
+	}
+
+	public function update($id){
+		fetch single data update
+	}
+
+	public function delete($id){
+		fetch single data delete
+	}
+
+}
+
+---------------------
+
+=>Resource Controller 
+
+php artisan make:controller CountriesController --resource 
+(or)
+php artisan make:controller CountriesController -r 
+
+---------------------
