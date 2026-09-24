@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\StaffsController;
+use App\Http\Controllers\EmployeesController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -79,12 +82,22 @@ Route::get('/profile',function(){
 // });
 
 
-Route::name('students.')->group(function(){
-    Route::get('/students',[StudentsController::class,'index'])->name('index');
-    Route::get('/students/show',[StudentsController::class,'show'])->name('show');
-    Route::get('/students/edit',[StudentsController::class,'edit'])->name('edit');
-});
+// Route::name('students.')->group(function(){
+//     Route::get('/students',[StudentsController::class,'index'])->name('index');
+//     Route::get('/students/show',[StudentsController::class,'show'])->name('show');
+//     Route::get('/students/edit',[StudentsController::class,'edit'])->name('edit');
+// });
 
+
+Route::get('/staffs',[StaffsController::class,'home'])->name('staffs.home');
+Route::get('/staffsparty',[StaffsController::class,'party'])->name('staffs.party');
+Route::get('/staffsparty/{total}',[StaffsController::class,'partytotal'])->name('staffs.total');
+Route::get('/staffsparty/{total}/{status}',[StaffsController::class,'partytotalconfirm'])->name('staffs.status');
+
+Route::get('/employees',[EmployeesController::class,'index'])->name('employees.index');
+Route::get('/employees/passingdataone',[EmployeesController::class,'passingdataone'])->name('employees.passingdataone');
+Route::get('/employees/passingdatatwo',[EmployeesController::class,'passingdatatwo'])->name('employees.passingdatatwo');
+Route::get('/employees/passingdatathree',[EmployeesController::class,'passingdatathree'])->name('employees.passingdatathree');
 
 
 
