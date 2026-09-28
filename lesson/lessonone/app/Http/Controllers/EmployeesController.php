@@ -61,5 +61,43 @@ class EmployeesController extends Controller
 
     }
 
+    public function show(){
+
+        $data['employees'] = [
+            'Honey Nway Oo',
+            'Mandalay',
+            '09111111'
+        ];
+
+        return view('employees/show',$data);
+    }
+
+
+    public function edit(){
+
+        $data['employees'] = [
+            'Honey Nway Oo',
+            'Mandalay',
+            '09111111'
+        ];
+
+        return view('employees/edit',compact('data'));
+    }
+
+    public function update(){
+
+        $data['employees'] = [
+            'Honey Nway Oo',
+            'Mandalay',
+            '09111111'
+        ];
+
+        return view('employees/update',["employees"=>$data['employees']]);
+    }
+
+  
+
+
+
     
 }

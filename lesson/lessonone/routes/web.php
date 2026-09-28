@@ -6,6 +6,10 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\StaffsController;
 use App\Http\Controllers\EmployeesController;
 
+use App\Http\Controllers\DashboardsController;
+use App\Http\Controllers\MembersController;
+
+use Illuminate\Support\Facades\DB;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -98,6 +102,125 @@ Route::get('/employees',[EmployeesController::class,'index'])->name('employees.i
 Route::get('/employees/passingdataone',[EmployeesController::class,'passingdataone'])->name('employees.passingdataone');
 Route::get('/employees/passingdatatwo',[EmployeesController::class,'passingdatatwo'])->name('employees.passingdatatwo');
 Route::get('/employees/passingdatathree',[EmployeesController::class,'passingdatathree'])->name('employees.passingdatathree');
+Route::get('/employees/show',[EmployeesController::class,'show'])->name('employees.show');
+Route::get('/employees/edit',[EmployeesController::class,'edit'])->name('employees.edit');
+Route::get('/employees/update',[EmployeesController::class,'update'])->name('employees.update');
 
 
 
+Route::get('/dashboards',[DashboardsController::class,'index'])->name('dashboards.index');
+Route::get('/members',[MembersController::class,'index'])->name('members.index');
+
+// -------------------------------------------
+
+Route::get('students/insert',function(){
+    DB::raw("INSERT INTO students(name,phone) VALUE('susu','099999'),");
+    // \DB::insert('INSERT INTO students(name,phone) VALUE(?,?)',['aung aung','0911111']);
+    // DB::insert('INSERT INTO students(name,phone) VALUE(?,?)',['aung aung','0911111']); 
+
+    return "Data Inserted";
+});
+
+Route::get('students/reads',function(){
+    $results = DB::select('SELECT * FROM students');
+
+    // return $results;
+    // return var_dump($results);
+
+    foreach($results as $result){
+        echo $result->name. "<br/>";
+    }
+});
+
+Route::get('students/singlereads',function(){
+    $results = DB::select('SELECT * FROM students where id=?',[2]);
+    return $results;
+});
+
+Route::get('students/update',function(){
+    // $results = DB::select('UPDATE students SET name="zaw zaw" WHERE id=?',[1]);
+    $results = DB::select('UPDATE students SET name=?,phone=? WHERE id=?',["su su","09222222",2]);
+    return "update";
+});
+
+Route::get('students/delete',function(){
+    $results = DB::delete('DELETE FROM students WHERE id=?',[3]);
+    return "Delete";
+});
+
+// =================================================== 
+
+Route::get('staffs/insert',function(){
+    DB::table('staffs')->insert([
+        'name'=>'yu yu aung',
+        'age'=>25
+    ]);
+
+    return "Inserted";
+});
+
+Route::get('staffs/read',function(){
+    
+    $staffs = DB::table('staffs')->get();
+    // return $staffs;
+    // return var_dump($staffs);
+
+    // foreach($staffs as $staff){
+    //     echo $staff->name."<br/>";
+    // }
+
+    // $staffs = DB::table('staffs')->select('name','id')->get();
+    // return $staffs;
+
+    // $staffs = DB::table('staffs')->where('age','>',25)->get();
+    // return $staffs;
+
+    // $staffs = DB::table('staffs')->orderBy('id','desc')->limit(2)->get();
+    // return $staffs;
+
+
+    // $staffs = DB::table('staffs')->count();
+    // return $staffs;
+
+    $staffs = DB::table('staffs')->where('name','yu yu')->exists();
+    return $staffs;
+
+    // $staffs = DB::table('staffs')->pluck('name'); // ["yu yu","yu yu aung","yu yu aung"]
+    // $staffs = DB::table('staffs')->pluck('name','id'); // {"1":"yu yu","2":"yu yu aung","3":"yu yu aung"}
+    // return $staffs;
+
+
+});
+
+Route::get('staffs/singleread',function(){
+    
+    // $staff = DB::table('staffs')->where('id',1)->first();
+    // return $staff;
+    // echo $staff->name;
+});
+
+
+
+Route::get('staffs/update',function(){
+    
+    // DB::table('staffs')->where('id',1)->update(['name'=>'Zaw Zaw']);
+    // return "Updated";
+
+    // DB::table('staffs')->where('id',2)->update(['name'=>'nandar','age'=>40]);
+    // return "Updated";
+
+    DB::table('staffs')->where('age',30)->update(['name'=>'maung zaw']);
+    return "Updated";
+
+});
+
+
+Route::get('staffs/delete',function(){
+    
+    // DB::table('staffs')->where('id',4)->delete();
+    // return "Deleted";
+
+    DB::table('staffs')->where('name',"maung zaw")->delete();
+    return "Deleted";
+
+});

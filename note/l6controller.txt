@@ -40,3 +40,5 @@ php artisan make:controller CountriesController --resource
 php artisan make:controller CountriesController -r 
 
 ---------------------
+
+
