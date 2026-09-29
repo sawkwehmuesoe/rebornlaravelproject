@@ -104,10 +104,19 @@ use Illuminate\Support\Facades\DB;
 
 =Create 
 
+	= Method 1
+
 	$type = new Type();
 		$type->name = "Non-Food";
 		$type->status = "Active";
 		$type->save(); 
+
+	= Method 2 
+
+	Type::create([
+		"name"=>"Food",
+		"status"=>"Inactive"
+	])
 
 = Read
 

@@ -11,6 +11,8 @@ use App\Http\Controllers\MembersController;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Article;
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -222,5 +224,134 @@ Route::get('staffs/delete',function(){
 
     DB::table('staffs')->where('name',"maung zaw")->delete();
     return "Deleted";
+
+});
+
+
+// ===============================================
+
+Route::get('articles/create',function(){
+
+    // Method 1 
+
+    // $article = new Article;
+    // $article->title = "This is new article 11";
+    // $article->description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+    // $article->user_id = 2;
+    // $article->rating = 1;
+    // $article->save();
+
+    // Method 2 
+
+    Article::create([
+        "title" => "This is new article 13",
+        "description" => "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "user_id" => 2,
+        "rating" => 3
+  
+    ]);
+
+    return "Inserted Successfully";
+
+});
+
+
+Route::get('articles/read',function(){
+
+    // $articles = Article::all();
+    // // return $articles;
+
+    // foreach($articles as $article){
+    //     echo "$article->id . $article->title <br/>";
+    // }
+
+    // $article = Article::find(6);
+    $article = Article::findOrFail(1);
+    // return $article;
+    echo "$article->id = $article->title";
+});
+
+
+Route::get('articles/update',function(){
+    $article = Article::findOrFail(3);
+    $article->title = "This is new article 3";
+    $article->description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+    $article->user_id = 2;
+    $article->rating = 4;
+    $article->save();
+
+    return "Update Successfully";
+});
+
+
+Route::get('articles/delete',function(){
+    $article = Article::findOrFail(9);
+    $article->delete();
+
+    return "Delete Successfully";
+});
+
+Route::get('articles/aggregates',function(){
+    
+    $datas = [
+        ['price'=>1000],
+        ['price'=>2000],
+        ['price'=>3000],
+        ['price'=>4000],
+        ['price'=>5000],
+    ];
+
+    // return $datas;
+
+    // var_dump($datas);
+    // var_dump(collect($datas));
+
+    // dd($datas,collect($datas));
+
+    // return collect($datas)->count(); // 5 // Laravel Object
+
+    // return collect($datas)->max(); //  {"price":5000}
+
+    // return collect($datas)->min(function($num){
+    //     return $num['price'];
+    // }); // 1000
+
+    // return collect($datas)->sum(function($num){
+    //     return $num['price'];
+    // }); // 15000
+
+
+    // return collect($datas)->average(function($num){
+    //     return $num['price'];
+    // }); 
+
+    // return collect($datas)->avg(function($num){
+    //     return $num['price'];
+    // }); 
+
+
+    // $articles = Article::all()->count();
+    // return $articles; // 8
+
+    // $articles = Article::where('user_id',1)->count();
+    // return $articles; // 8
+
+    // $articles = Article::where('user_id',1)->max('rating');
+    // return $articles; // 5
+
+    // $articles = Article::where('user_id',2)->max('rating');
+    // return $articles; // 4
+
+    // $articles = Article::where('user_id',1)->min('rating');
+    // return $articles; // 1
+
+    // $articles = Article::where('user_id',1)->average('rating');
+    // return $articles; // 2.2
+
+    // $articles = Article::where('user_id',1)->avg('rating');
+    // return $articles;
+
+    $articles = Article::where('user_id',1)->sum('rating');
+    return $articles; // 16
 
 });
