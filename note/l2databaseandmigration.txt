@@ -230,3 +230,74 @@ public function down():void
 {
     \DB::unprepared("DROP TRIGGER IF EXISTS triggername_bfc");
 }
+
+-----------------------------------------------------------
+
+=> Foreign Key Constraints 
+
+
+When without unsignedBigInteger -> Use method 1
+
+Method 1 
+
+$table->foreignId('author_id');
+$table->foreignId('author_id')->constrained('authors');
+
+you can also specifiy a different column if the primary key is not id 
+$table->foreignId('author_id')->constrained('authors','authorid');
+
+$table->foreignId('author_id')->constrained()->onUpdate('cascade');
+$table->foreignId('author_id')->constrained()->onDelete('cascade');
+
+           join table id       for table join id 
+$table->foreignId('author_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+
+--------------------------------------------------------
+
+Use Method 2 when the foreign key column is created separately, especially when using:
+
+$table->unsignedBigInteger('author_id');
+Method 2 
+            for join table id /for table join id / join table name
+$table->foreign("author_id")->reference('id')->on("authors")->onUpdate('cascade')->onDelete('cascade');
+
+
+author_id → Foreign Key in the current table
+authors → Parent / referenced table
+id → Primary Key in authors
+onUpdate('cascade') → If the referenced ID changes, update author_id
+onDelete('cascade') → If the author is deleted, related records are deleted too
+
+--------------------------------------------------------
+
+  Schema::create('authors', function (Blueprint $table) {
+            $table->id('authorid');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+
+
+  Schema::create('types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+  Schema::create('books', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->unique();
+            $table->text('description');
+            $table->year('year');
+
+            $table->foreignId('author_id')->constrained('authors')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->unsignedBigInteger('type_id')
+            $table->foreign('type_id')->reference('id')->on("types")->onUpdate('cascade')->onDelete('restrict');
+
+            $table->timestamps();
+        });
