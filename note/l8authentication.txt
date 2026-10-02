@@ -1,0 +1,10 @@
+=>Laravel Web Authentication 
+
+
+composer update
+
+composer require laravel/breeze --dev
+
+php artisan migrate
+npm install
+npm run dev

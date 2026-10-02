@@ -15,7 +15,8 @@ class StatusesController extends Controller
      */
     public function index()
     {
-        return view('statuses.index');
+        $statuses = Status::all();     
+        return view('statuses.index',compact('statuses'));
     }
 
     /**
@@ -31,13 +32,14 @@ class StatusesController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
-
+        // $user = Auth::user();
+        // $user_id = $user->id;
+        
         $status = new Status();
         $status->name = $request['name'];
         $status->slug = Str::slug($request['name']);
-        $status->user_id = $user_id;
+        // $status->user_id = $user_id;
+        $status->user_id = 1;
 
         $status->save();
 
@@ -65,13 +67,14 @@ class StatusesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
+        // $user = Auth::user();
+        // $user_id = $user->id;
 
         $status = Status::findOrFail($id);
         $status->name = $request['name'];
         $status->slug = Str::slug($request['name']);
-        $status->user_id = $user_id;
+        // $status->user_id = $user_id;
+        $status->user_id = 1;
 
         $status->save();
 

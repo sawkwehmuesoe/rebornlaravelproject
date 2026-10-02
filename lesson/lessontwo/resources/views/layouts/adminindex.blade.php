@@ -15,10 +15,33 @@
     <!-- Page Wrapper -->
     <section>
 
-        <!-- start breadcrumb -->
-        <!-- end breadcrumb -->
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-10 col-md-9 pt-md-5 mt-ms-3 ms-auto">
+                        <!-- start inner content area -->
+                        <div class="row">
 
-        @yield('content')
+                            <!-- start breadcrumb -->
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="fas fa-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Previous</a></li>
+                                    <li class="breadcrumb-item active"><a href="javascript:void(0);">Current</a></li>
+                                </ol>
+                            </nav>
+                            <!-- end breadcrumb -->
+
+                            @yield('content')
+
+                        </div>
+                        <!-- end inner content area -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
 
     </section>
     <!-- Page Wrapper -->
