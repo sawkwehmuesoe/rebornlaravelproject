@@ -230,6 +230,10 @@ body.show-nav > .right-panels{
 /* Custom table Style */
 
 .table{
+    background: transparent !important;
+}
+
+table th,table td,table tr{
     background-color: transparent !important;
 }
 

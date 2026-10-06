@@ -58,7 +58,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" name="selectalls" id="selectalls" class="form-check-input" />
+                                <input type="checkbox" name="selectalls" id="selectalls" class="form-check-input selectalls" />
                             </th>
                             <th>No</th>
                             <th>Name</th>
@@ -71,9 +71,7 @@
                     <tbody>
                         @foreach($statuses as $idx=>$status)
                             <tr>
-                                <td>
-                                    <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$status->id}}" />
-                                </td>                              
+                                <td>select</td>
                                 <td>{{++$idx}}</td>
                                 <td>{{$status->name}}</td>
                                 <!-- <td>{{$status->user['name']}}</td> -->
@@ -82,10 +80,9 @@
                                 <td>{{$status->updated_at->format('d M Y')}}</td>
                                 <td>
                                     <a href="javascript:void(0);" class="text-info"><i class="fas fa-pen"></i></a>
-                                    <a href="javascript:void(0);" class="text-danger ms-2 delete-btn" data-idx={{$idx}}><i class="fas fa-trash-alt"></i></a>
-                                    <form id="formdelete-{{$idx}}" action="{{route('statuses.destroy',$status->id)}}" method="POST">
-                                        @csrf 
-                                        @method('DELETE')
+                                    <a href="javascript:void(0);" class="text-danger ms-2"><i class="fas fa-trash-alt"></i></a>
+                                    <form action="">
+                                        
                                     </form>
                                 </td>
                             </tr> 
@@ -103,39 +100,6 @@
 @endsection
 
 @section('scripts')
-
-    <script type="text/javascript">
-
-
-        $(document).ready(function(){
-
-            // Single Delete 
-            $('.delete-btn').click(function(){
-                const getidx = $(this).data('idx');
-                // console.log(getidx);
-
-                if(confirm(`Are you sure! you want to delete ${getidx}`)){
-                    $('#formdelete-'+getidx).submit();
-                    return true;
-                }else{
-                    return false;
-                }
-
-            });
-            // Single Delete 
-
-            // Bulk Delete 
-            $('#selectalls').click(function(){
-                $('.singlechecks').prop('checked',$(this).prop('checked'))
-            })
-            // Bulk Delete
-
-        });
-
-  
-
-    </script>
-
 @endsection
         
 
