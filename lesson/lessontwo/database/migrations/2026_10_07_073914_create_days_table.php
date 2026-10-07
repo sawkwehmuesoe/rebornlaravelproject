@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();            
-            $table->string('image')->nullable();
+        Schema::create('days', function (Blueprint $table) {
+            $table->id();
             $table->string('name')->unique();
             $table->string('slug');
             $table->unsignedBigInteger('status_id')->default(3);
@@ -22,15 +21,11 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('days');
     }
 };
-
-
-// For unique 
-// ALTER TABLE roles 
-// ADD CONSTRAINT unique_name UNIQUE (name);
-
-// SHOW INDEX FROM roles;

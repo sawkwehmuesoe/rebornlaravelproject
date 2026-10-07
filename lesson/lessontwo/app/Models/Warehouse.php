@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Warehouse extends Model
 {
-    protected $table = 'roles';
+    protected $table = 'warehouses';
     protected $pirmaryKey = 'id';
     protected $fillable = [
-        'image',
         'name',
         'slug',
         'status_id',
@@ -24,3 +23,5 @@ class Role extends Model
         return $this->belongsTo(User::class);
     }
 }
+
+

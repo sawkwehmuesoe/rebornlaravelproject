@@ -5,11 +5,36 @@
         <!-- Start Content Area  -->
 
         <div class="container-fluid">
-
             <div class="col-md-12">
-                <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm rounded-0">Create</a>
+                <form action="{{route('categories.store')}}" method="POST">
+                    {{ csrf_field() }}
+                    
+                    <div class="row align-items-end">
+                        
+                        <div class="col-md-4 form-group">
+                            <label for="name">Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" id="name" class="form-control form-control-sm rounded-0" placeholder="Enter Categories Name" />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="status_id">Status</label>
+                            <select name="status_id" id="status_id" class="form-control form-control-sm rounded-0" >
+                                @foreach($statuses as $status)
+                                    <option value="{{$status['id']}}">{{$status['name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="reset" class="btn btn-secondary btn-sm rounded-0" >Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-sm rounded-0 ms-3" >Submit</button>
+                        </div>
+
+                    </div>
+
+                </form>
             </div>
-        
+
             <hr/>
 
             <div class="col-md-12">
@@ -20,7 +45,7 @@
                     </div>
 
                     <div class="col-md-10">
-                        <form action="{{route('roles.store')}}" method="POST">
+                        <form action="{{route('categories.store')}}" method="POST">
                         
                             <div class="row justify-content-end">
                                 
@@ -42,7 +67,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" name="selectalls" id="selectalls" class="form-check-input selectalls" />
+                                <input type="checkbox" name="selectalls" id="selectalls" class="form-check-input" />
                             </th>
                             <th>No</th>
                             <th>Name</th>
@@ -54,21 +79,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($roles as $idx=>$role)
+                        @foreach($categories as $idx=>$category)
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$role->id}}" />
-                                </td> 
+                                    <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$category->id}}" />
+                                </td>                              
                                 <td>{{++$idx}}</td>
-                                <td>{{$role->name}}</td>
-                                <td>{{$role->status->name}}</td>
-                                <td>{{$role['user']['name']}}</td>
-                                <td>{{$role->created_at->format('d M Y')}}</td>
-                                <td>{{$role->updated_at->format('d M Y')}}</td>
+                                <td>{{$category->name}}</td>
+                                <td>{{$category->status->name}}</td>
+                                 <td>{{$category['user']['name']}}</td>
+                                <td>{{$category->created_at->format('d M Y')}}</td>
+                                <td>{{$category->updated_at->format('d M Y')}}</td>
                                 <td>
-                                    <a href="{{route('roles.edit',$role->id)}}" class="text-info"><i class="fas fa-pen"></i></a>
+                                    <a href="javascript:void(0);" class="text-info"><i class="fas fa-pen"></i></a>
                                     <a href="javascript:void(0);" class="text-danger ms-2 delete-btn" data-idx={{$idx}}><i class="fas fa-trash-alt"></i></a>
-                                    <form id="formdelete-{{$idx}}" action="{{route('roles.destroy',$role->id)}}" method="POST">
+                                    <form id="formdelete-{{$idx}}" action="{{route('categories.destroy',$category->id)}}" method="POST">
                                         @csrf 
                                         @method('DELETE')
                                     </form>
@@ -88,7 +113,8 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
+
+    <script type="text/javascript">
 
 
         $(document).ready(function(){
@@ -118,7 +144,8 @@
 
   
 
-</script>
+    </script>
+
 @endsection
         
 

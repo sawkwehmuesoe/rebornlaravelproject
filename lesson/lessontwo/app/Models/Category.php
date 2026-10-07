@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Category extends Model
 {
-    protected $table = 'roles';
+    protected $table = 'categories';
     protected $pirmaryKey = 'id';
     protected $fillable = [
-        'image',
         'name',
         'slug',
         'status_id',

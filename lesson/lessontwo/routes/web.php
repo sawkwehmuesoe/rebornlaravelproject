@@ -3,9 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DaysController;
+use App\Http\Controllers\GendersController;
+use App\Http\Controllers\PaymentTypesController;
+use App\Http\Controllers\ReligionsController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\StagesController;
 use App\Http\Controllers\StatusesController;
 use App\Http\Controllers\TypesController;
+use App\Http\Controllers\WarehousesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('statuses',StatusesController::class);
     Route::resource('types',TypesController::class);
 
+    Route::resource('categories',CategoriesController::class);
+    Route::resource('days',DaysController::class);
+    Route::resource('genders',GendersController::class);
+    Route::resource('paymenttypes',PaymentTypesController::class);
+    Route::resource('religions',ReligionsController::class);
+    Route::resource('stages',StagesController::class);
+    Route::resource('warehouses',WarehousesController::class);
 });
 
 require __DIR__.'/auth.php';
