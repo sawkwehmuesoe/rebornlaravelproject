@@ -60,7 +60,7 @@
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$role->id}}" />
                                 </td> 
                                 <td>{{++$idx}}</td>
-                                <td>{{$role->name}}</td>
+                                <td><img src="{{asset($role->image)}}" class="rounded-circle me-2" width="20" height="20" alt=""><a href="{{route('roles.show',$role->id)}}">{{$role->name}}</a></td>
                                 <td>{{$role->status->name}}</td>
                                 <td>{{$role['user']['name']}}</td>
                                 <td>{{$role->created_at->format('d M Y')}}</td>
