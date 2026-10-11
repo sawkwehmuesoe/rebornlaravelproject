@@ -56,13 +56,13 @@ class RolesController extends Controller
 
     public function show(string $id)
     {
-        $role = Role::findOrfail($id);
+        $role = Role::findOrFail($id);
         return view('roles.show',compact('role'));
     }
 
     public function edit(string $id)
     {
-        $role = Role::findOrfail($id);
+        $role = Role::findOrFail($id);
         $statuses = Status::whereIn('id',[3,4])->get();
         return view('roles.edit')->with('role',$role)->with('statuses',$statuses);
     }

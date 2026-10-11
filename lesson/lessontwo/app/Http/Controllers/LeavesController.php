@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use App\Models\Leave;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\User;
 
 class LeavesController extends Controller
 {
@@ -11,7 +17,8 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        return view('leaves.index');
+        $leaves = Leave::all();
+        return view('leaves.index',compact('leaves'));
     }
 
     /**
@@ -19,7 +26,11 @@ class LeavesController extends Controller
      */
     public function create()
     {
-        //
+        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get();
+        $data['tags'] = User::orderBy('name','asc')->get();
+        $data['gettoday'] = Carbon::today()->format('Y-m-d'); 
+        // dd($data['gettoday']);
+        return view('leaves.create',$data);
     }
 
     /**
@@ -27,7 +38,21 @@ class LeavesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $leave = new Leave();
+        $leave->post_id = $request['post_id'];
+        $leave->startdate = $request['startdate'];
+        $leave->enddate = $request['enddate'];
+        $leave->tag = $request['tag'];
+        $leave->title = $request['title'];
+        $leave->content = $request['content'];        
+        $leave->user_id = $user_id;
+
+        $leave->save();
+
+        return redirect(route('leaves.index'));
     }
 
     /**
@@ -35,7 +60,8 @@ class LeavesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $leave = Leave::findOrFail($id);
+        return view('leaves.show',compact('leave'));
     }
 
     /**
@@ -43,7 +69,10 @@ class LeavesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['leave'] = Leave::findOrFail($id);
+        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get();
+        $data['tags'] = User::orderBy('name','asc')->get();
+        return view('leaves.edit',$data);
     }
 
     /**
@@ -51,7 +80,20 @@ class LeavesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $leave = Leave::findOrFail($id);
+        $leave->post_id = $request['post_id'];
+        $leave->startdate = $request['startdate'];
+        $leave->enddate = $request['enddate'];
+        $leave->tag = $request['tag'];
+        $leave->title = $request['title'];
+        $leave->content = $request['content'];        
+
+        $leave->save();
+
+        return redirect(route('leaves.index'));
     }
 
     /**
@@ -59,6 +101,13 @@ class LeavesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $leave = Leave::findOrFail($id);
+        $leave->delete();
+
+        return redirect()->back();
     }
 }
+
+
+// Tag CRUD 
+// Post 

@@ -12,3 +12,29 @@ npm run dev
 zzz to zzzeb 
 
 4EX
+
+ 			$table->unsignedBigInteger('post_id');
+            $table->date('startdate');
+            $table->date('enddate');  
+            $table->unsignedBigInteger('tag');
+            $table->string('title');  
+            $table->text('content');
+            $table->unsignedBigInteger('stage_id')->default(2)->comment('1 = Approved,2 = Pending,3 = Reject');    
+            $table->unsignedBigInteger('authorized_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+
+
+            $table->string('image')->nullable();
+            $table->string('title');
+            $table->string('slug');
+            $table->longText('content');
+            $table->decimal('fee',8,2)->default(0);
+            $table->date('startdate')->nullable();
+            $table->date('enddate')->nullable();
+            $table->time('starttime')->nullable();
+            $table->time('endtime')->nullable();
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('attshow')->default(4);
+            $table->unsignedBigInteger('status_id')->default(1);
+            $table->unsignedBigInteger('user_id');
