@@ -13,6 +13,7 @@ use App\Http\Controllers\ReligionsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\StagesController;
 use App\Http\Controllers\StatusesController;
+use App\Http\Controllers\TagsController;
 use App\Http\Controllers\TypesController;
 use App\Http\Controllers\WarehousesController;
 
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('paymenttypes',PaymentTypesController::class);
     Route::resource('religions',ReligionsController::class);
     Route::resource('stages',StagesController::class);
+    Route::resource('tags',TagsController::class);
     Route::resource('warehouses',WarehousesController::class);
 });
 

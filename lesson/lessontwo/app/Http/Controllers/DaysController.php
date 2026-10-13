@@ -30,6 +30,11 @@ class DaysController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name'=>'required|unique:days,name',
+            'status_id'=>'required|in:3,4'
+        ]);
+
         $user = Auth::user();
         $user_id = $user->id;
         

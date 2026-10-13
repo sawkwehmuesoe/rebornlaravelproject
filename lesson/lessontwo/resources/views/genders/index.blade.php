@@ -12,12 +12,18 @@
                     <div class="row align-items-end">
                         
                         <div class="col-md-4 form-group">
+                            @error('name')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
                             <label for="name">Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" class="form-control form-control-sm rounded-0" placeholder="Enter Genders Name" />
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label for="status_id">Status</label>
+                            @error('status_id')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
                             <select name="status_id" id="status_id" class="form-control form-control-sm rounded-0" >
                                 @foreach($statuses as $status)
                                     <option value="{{$status['id']}}">{{$status['name']}}</option>

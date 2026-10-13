@@ -33,6 +33,11 @@ class TypesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:50|unique:types,name',
+            'status_id' => 'required|in:3,4'
+        ]);
+
         $user = Auth::user();
         $user_id = $user->id;
         
