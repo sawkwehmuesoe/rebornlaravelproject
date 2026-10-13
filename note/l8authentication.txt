@@ -37,4 +37,4 @@ zzz to zzzeb
             $table->unsignedBigInteger('tag_id');
             $table->unsignedBigInteger('attshow')->default(4);
             $table->unsignedBigInteger('status_id')->default(1);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id'); 

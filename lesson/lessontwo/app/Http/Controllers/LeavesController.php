@@ -26,7 +26,7 @@ class LeavesController extends Controller
      */
     public function create()
     {
-        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get();
+        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get()->pluck('title','id');
         $data['tags'] = User::orderBy('name','asc')->get();
         $data['gettoday'] = Carbon::today()->format('Y-m-d'); 
         // dd($data['gettoday']);
@@ -40,10 +40,12 @@ class LeavesController extends Controller
     {
 
         $request->validate([            
-            'post_id' => 'required',
+            'post_id' => 'required|array',
+            'post_id.*'=> 'exists:posts,id',
             'startdate' => 'required|date',
-            'enddate' => 'required|date',
-            'tag' => 'required',
+            'enddate' => 'required|date|after_or_equal:startdate',
+            'tag' => 'required|array',
+            'tag.*'=> 'exists:users,id',
             'title' => 'required|max:100',
             'content' => 'required' 
         ]);
@@ -52,10 +54,10 @@ class LeavesController extends Controller
         $user_id = $user->id;
 
         $leave = new Leave();
-        $leave->post_id = $request['post_id'];
+        $leave->post_id = json_encode($request['post_id']);
         $leave->startdate = $request['startdate'];
         $leave->enddate = $request['enddate'];
-        $leave->tag = $request['tag'];
+        $leave->tag = json_encode($request['tag']);
         $leave->title = $request['title'];
         $leave->content = $request['content'];        
         $leave->user_id = $user_id;
@@ -90,6 +92,18 @@ class LeavesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([            
+            'post_id' => 'required|array',
+            'post_id.*'=> 'exists:posts,id',
+            'startdate' => 'required|date',
+            'enddate' => 'required|dateafter_or_equal:startdate',
+            'tag' => 'required|array',
+            'tag.*'=> 'exists:users,id',
+            'title' => 'required|max:100',
+            'content' => 'required' 
+        ]);
+
+
         $user = Auth::user();
         $user_id = $user->id;
 

@@ -57,10 +57,9 @@
                                     @error('post_id')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
-                                    <select name="post_id" id="post_id" class="form-control form-control-sm rounded-0" value="{{old('post_id')}}" >
-                                        <option selected disabled>Choose Class</option>
-                                        @foreach($posts as $post)
-                                            <option value="{{$post['id']}}" {{old('post_id') == $post->id ? 'selected' : ''}}>{{$post['title']}}</option>
+                                    <select name="post_id[]" id="post_id" class="form-control form-control-sm rounded-0" value="{{old('post_id')}}" multiple>                                        
+                                        @foreach($posts as $id=>$title)
+                                            <option value="{{$id}}" {{old('post_id') == $id ? 'selected' : ''}}>{{$title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,8 +69,7 @@
                                     @error('tag')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
-                                    <select name="tag" id="tag" class="form-control form-control-sm rounded-0" >
-                                        <option selected disabled>Choose Authorize Person</option>
+                                    <select name="tag[]" id="tag" class="form-control form-control-sm rounded-0" multiple >                                        
                                         @foreach($tags as $tag)
                                             <option value="{{$tag['id']}}" {{old('tag') == $tag->id ? 'selected' : ''}} >{{$tag['name']}}</option>
                                         @endforeach
@@ -109,14 +107,34 @@
 @endsection
 
 @section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css">
 @endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js" ></script>
 <script type="text/javascript">
 
 
         $(document).ready(function(){
-    
+            $('#post_id').select2({
+                placeholder:"Choose Class"
+            });
+            $('#tag').select2({
+                placeholder:"Choose authorize person"
+            });
+
+            $("#content").summernote({
+                placeholder:'Say Something...',
+                height:120,
+                toolbar:[                    
+                    ['font',['bold','underline','clear']],
+                    ['color',['color']],
+                    ['para',['ul','ol','paragraph']],
+                    ['insert',['link']]
+                ]
+            });
         });
 
   
