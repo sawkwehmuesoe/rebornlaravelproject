@@ -81,8 +81,8 @@
                                     @error('content')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
-                                    <textarea name="content" id="content" rows="5" class="form-control form-control-sm rounded-0" placeholder="Say Something...">{{old('content')}}</textarea>
-                                </div>
+                                    <textarea name="content" id="content" rows="5" class="form-control form-control-sm rounded-0">{{old('content')}}</textarea>
+                                </div>  
 
                                 <div class="col-md-12 d-flex justify-content-end">                            
                                     <a href="{{route('leaves.index')}}" class="btn btn-secondary btn-sm rounded-0">Cancel</a>
@@ -107,13 +107,21 @@
 @endsection
 
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css">
+    <link href="{{asset('assets/libs/select2/select2-develop/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/libs/summernote/summernote-lite.min.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" type="text/css" />
+
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js" ></script>
+<script src="{{asset('assets/libs/select2/select2-develop/dist/js/select2.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/libs/summernote/summernote-lite.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/libs/flatpickr/flatpickr.js')}}" type="text/javascript"></script>
+
+
+
+
+
 <script type="text/javascript">
 
 
@@ -126,7 +134,7 @@
             });
 
             $("#content").summernote({
-                placeholder:'Say Something...',
+                placeholder:'Say Somethings...',
                 height:120,
                 toolbar:[                    
                     ['font',['bold','underline','clear']],
@@ -135,6 +143,13 @@
                     ['insert',['link']]
                 ]
             });
+
+            $("#startdate,#enddate").flatpickr({
+                dateFormat: "Y-m-d H:i",
+                minDate:"today",
+                maxDate:new Date().fp_incr(30)
+            })
+
         });
 
   

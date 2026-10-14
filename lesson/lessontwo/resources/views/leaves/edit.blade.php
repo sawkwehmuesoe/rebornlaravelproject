@@ -51,26 +51,20 @@
 
                                 <div class="col-md-6 form-group mb-3">
                                     <label for="post_id">Class</label>
-                                    <select name="post_id" id="post_id" class="form-control form-control-sm rounded-0" >                                        
-                                        @foreach($posts as $post)
-                                            <option value="{{$post['id']}}"
-                                                @if($post['id'] === $leave['post_id'])
-                                                    selected
-                                                @endif
-                                            >{{$post['title']}}</option>
+                                    <select name="post_id[]" id="post_id" class="form-control form-control-sm rounded-0" multiple >                                        
+
+                                        @foreach($posts as $id=>$title)
+                                            <option value="{{$id}}" {{ in_array($id,json_decode($leave->post_id,true) ?? []) ? 'selected' : '' }} >{{$title}}</option>
                                         @endforeach
+
                                     </select>
                                 </div>
 
                                 <div class="col-md-6 form-group mb-3">
                                     <label for="tag">Tag</label>
-                                    <select name="tag" id="tag" class="form-control form-control-sm rounded-0" >
-                                        @foreach($tags as $tag)
-                                            <option value="{{$tag['id']}}"
-                                                @if($tag['id'] === $leave['tag_id'])
-                                                    selected
-                                                @endif
-                                            >{{$tag['name']}}</option>
+                                    <select name="tag[]" id="tag" class="form-control form-control-sm rounded-0" multiple >
+                                        @foreach($tags as $id=>$name)                                            
+                                            <option value="{{$id}}" {{ in_array($id,json_decode($leave->tag) ?? []) ? 'selected' : '' }} >{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -102,6 +96,10 @@
 @endsection
 
 @section('css')
+
+    <link href="{{asset('assets/libs/select2/select2-develop/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/libs/summernote/summernote-lite.min.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" type="text/css" />
     <style type="text/css">
         .gallery{
 			width: 100%;
@@ -123,9 +121,16 @@
 			border: 2px dashed #000;
 		}
     </style>
+
+    
 @endsection
 
 @section('scripts')
+
+<script src="{{asset('assets/libs/select2/select2-develop/dist/js/select2.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/libs/summernote/summernote-lite.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/libs/flatpickr/flatpickr.js')}}" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 
@@ -170,6 +175,30 @@
             })
 
             // End Single Profile Preview 
+
+            $('#post_id').select2({
+                placeholder:"Choose Class"
+            });
+            $('#tag').select2({
+                placeholder:"Choose authorize person"
+            });
+
+            $("#content").summernote({
+                placeholder:'Say Somethings...',
+                height:120,
+                toolbar:[                    
+                    ['font',['bold','underline','clear']],
+                    ['color',['color']],
+                    ['para',['ul','ol','paragraph']],
+                    ['insert',['link']]
+                ]
+            });
+
+            $("#startdate,#enddate").flatpickr({
+                dateFormat: "Y-m-d H:i",
+                minDate:"today",
+                maxDate:new Date().fp_incr(30)
+            })
 
 		});
 

@@ -82,8 +82,8 @@ class LeavesController extends Controller
     public function edit(string $id)
     {
         $data['leave'] = Leave::findOrFail($id);
-        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get();
-        $data['tags'] = User::orderBy('name','asc')->get();
+        $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get()->pluck('title','id');
+        $data['tags'] = User::orderBy('name','asc')->get()->pluck('name','id');
         return view('leaves.edit',$data);
     }
 

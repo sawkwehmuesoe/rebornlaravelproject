@@ -45,7 +45,7 @@
                                 <input type="checkbox" name="selectalls" id="selectalls" class="form-check-input selectalls" />
                             </th>
                             <th>No</th>
-                            <th>Post</th>
+                            <th>Title</th>
                             <th>Startdate</th>
                             <th>Enddate</th>
                             <th>Tag</th>
@@ -66,11 +66,10 @@
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$leave->id}}" />
                                 </td> 
                                 <td>{{++$idx}}</td>
-                                <td>{{$leave->post->title}}</td>
+                                <td>{{Str::limit($leave->title,20)}}</td>
                                 <td>{{$leave->startdate}}</td>
                                 <td>{{$leave->enddate}}</td>
-                                <td>{{$leave->tag}}</td>
-                                <td>{{$leave->title}}</td>
+                                <td>{{$leave->tag}}</td>                                
                                 <td>{{$leave->content}}</td>
                                 <td>{{$leave->stage->name}}</td>
                                 {{-- <td>{{$leave->authorized->name}}</td> --}}
