@@ -46,9 +46,9 @@
                             </th>
                             <th>No</th>
                             <th>Title</th>
-                            <th>Startdate</th>
-                            <th>Enddate</th>
                             <th>Tag</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
                             <th>Title</th>
                             <th>Content</th>
                             <th>Stage ID</th>
@@ -67,9 +67,18 @@
                                 </td> 
                                 <td>{{++$idx}}</td>
                                 <td>{{Str::limit($leave->title,20)}}</td>
+                                <td>
+                                    @php
+                                        $tagids = json_decode($leave->tag,true);
+                                        $tagnames = collect($tagids)->map(function($id) use ($users){
+                                            return $users[$id] ?? 'Unknow';
+                                        });
+                                    @endphp
+
+                                    {{$tagnames->join(", ")}}
+                                </td>                                
                                 <td>{{$leave->startdate}}</td>
                                 <td>{{$leave->enddate}}</td>
-                                <td>{{$leave->tag}}</td>                                
                                 <td>{{$leave->content}}</td>
                                 <td>{{$leave->stage->name}}</td>
                                 {{-- <td>{{$leave->authorized->name}}</td> --}}

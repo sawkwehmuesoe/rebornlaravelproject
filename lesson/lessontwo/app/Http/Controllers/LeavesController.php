@@ -18,7 +18,8 @@ class LeavesController extends Controller
     public function index()
     {
         $leaves = Leave::all();
-        return view('leaves.index',compact('leaves'));
+        $users = User::pluck('name','id');
+        return view('leaves.index',compact('leaves','users'));
     }
 
     /**
@@ -73,7 +74,8 @@ class LeavesController extends Controller
     public function show(string $id)
     {
         $leave = Leave::findOrFail($id);
-        return view('leaves.show',compact('leave'));
+        $users = User::pluck('name','id');
+        return view('leaves.show',["leave"=>$leave,"users"=>$users]);
     }
 
     /**

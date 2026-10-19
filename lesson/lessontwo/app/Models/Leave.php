@@ -32,8 +32,31 @@ class Leave extends Model
         return $this->belongsTo(Stage::class);
     }
 
-    public function tag(){
-        return $this->belongsTo(User::class);
+    public function maptagtonames($users=null){
+
+        $tagids = json_decode($this->tag,true);
+        $tagnames = collect($tagids)->map(function($id) use ($users){
+            return $users[$id] ?? 'Unknow';
+        });
+
+        return $tagnames->join(', ');
+
+    }
+
+    public function tagpersons($tagjson){
+        $tagids = json_decode($tagjson,true); // Decode JSON encode tags 
+
+        $tags = User::whereIn('id',$tagids)->pluck('name','id');
+
+        return $tags;
+    }
+
+    public function tagpost($postjson){
+        $postids = json_decode($postjson,true); // Decode JSON encode tags 
+
+        $posts = Post::whereIn('id',$postids)->pluck('title','id');
+
+        return $posts;
     }
 }
 
