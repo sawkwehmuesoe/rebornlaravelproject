@@ -13,11 +13,14 @@
 
                         <div class="col-md-4">
                             
-                            <div class="row">
+                            <div class="row">                        
 
-                                <div class="col-md-12 form-group">
-                                    <label for="name">Image <span class="text-danger">*</span></label>
-                                    <input type="file" name="image" id="image" class="form-control form-control-sm rounded-0" />
+                                <div class="col-md-12 form-group mb-3">                                
+
+                                    <label for="images" class="gallery">
+                                        <span>Choose Images</span>
+                                    </label>
+                                    <input type="file" name="images[]" id="images" class="form-control form-control-sm rounded-0" multiple hidden />
                                 </div>
 
                                 <div class="col-md-6 form-group">
@@ -111,15 +114,35 @@
     <link rel="stylesheet" href="{{asset('assets/libs/summernote/summernote-lite.min.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" type="text/css" />
 
+    <style type="text/css">
+        /* Start Gallery */
+        .gallery{
+			width: 100%;
+			background-color: #eee;
+			color: #aaa;
+
+			text-align: center;
+			padding: 10px;
+
+		}
+
+		.removetxt span{
+			display: none;
+		}
+
+		.gallery img{
+			width: 100px;
+			height: 100px;
+			border: 2px dashed #000;
+		}
+        /* End Gallery */
+    </style>
 @endsection
 
 @section('scripts')
 <script src="{{asset('assets/libs/select2/select2-develop/dist/js/select2.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/libs/summernote/summernote-lite.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/libs/flatpickr/flatpickr.js')}}" type="text/javascript"></script>
-
-
-
 
 
 <script type="text/javascript">
@@ -148,7 +171,46 @@
                 dateFormat: "Y-m-d H:i",
                 minDate:"today",
                 maxDate:new Date().fp_incr(30)
+            });
+
+            // Start Single Profile Preview
+
+            var previewimages = function(input,output){
+
+            if(input.files){
+
+                var totalfiles = input.files.length;
+                console.log(totalfiles);
+
+                if(totalfiles > 0){
+                    $(".gallery").addClass('removetxt');
+                }else{
+                    $(".gallery").removeClass('removetxt');
+                }
+
+                for(var i=0; i < totalfiles ; i++){
+                    // console.log(i);
+
+                    var filereader = new FileReader();
+
+                    filereader.onload = function(e){
+                        $(output).html("");
+                        $($.parseHTML('<img>')).attr('src',e.target.result).appendTo(output);
+                    }
+
+                    filereader.readAsDataURL(input.files[i]);
+
+                }
+
+            }
+
+            }
+
+            $("#image").change(function(){
+                previewimages(this,'label.gallery');
             })
+
+            // End Single Profile Preview
 
         });
 

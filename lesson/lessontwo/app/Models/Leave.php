@@ -51,7 +51,7 @@ class Leave extends Model
         return $tags;
     }
 
-    public function tagpost($postjson){
+    public function tagposts($postjson){
         $postids = json_decode($postjson,true); // Decode JSON encode tags 
 
         $posts = Post::whereIn('id',$postids)->pluck('title','id');

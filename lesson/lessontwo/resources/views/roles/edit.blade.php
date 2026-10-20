@@ -12,7 +12,7 @@
                     
                     <div class="row align-items-end">
                         
-                        <div class="col-md-3 form-group">                                
+                        <div class="col-md-3 form-group mb-3">                                
 
                                 <label for="image" class="gallery">
 
