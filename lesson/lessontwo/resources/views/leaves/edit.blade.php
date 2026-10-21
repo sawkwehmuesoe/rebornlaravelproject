@@ -16,7 +16,7 @@
                             <div class="row">
 
                                 <div class="col-md-12 form-group">
-                                    <label for="image" class="gallery">
+                                    <label for="images" class="gallery">
 
                                         @if($leave->image)
                                             <img src="{{asset($leave->image)}}" alt="{{$leave->slug}}" class="img-thumbnail" width="100" height="100">
@@ -25,7 +25,7 @@
                                         @endif
 
                                     </label>
-                                    <input type="file" name="image" id="image" class="form-control form-control-sm rounded-0" hidden />
+                                    <input type="file" name="images[]" id="images" class="form-control form-control-sm rounded-0" multiple hidden />
                                 </div>
 
                                 <div class="col-md-6 form-group">
@@ -135,9 +135,7 @@
 
 
         $(document).ready(function(){
-			// console.log("hi");
-
-            // Start Single Profile Preview 
+            // Start Multi Profile Preview 
 
 			var previewimages = function(input,output){
 
@@ -157,8 +155,7 @@
 
                     var filereader = new FileReader();
 
-                    filereader.onload = function(e){
-                        $(output).html("");
+                    filereader.onload = function(e){                       
                         $($.parseHTML('<img>')).attr('src',e.target.result).appendTo(output);
                     }
 
@@ -170,11 +167,11 @@
 
             }
 
-            $("#image").change(function(){
+            $("#images").change(function(){
                 previewimages(this,'label.gallery');
             })
 
-            // End Single Profile Preview 
+            // End Multi Profile Preview 
 
             $('#post_id').select2({
                 placeholder:"Choose Class"
@@ -198,7 +195,7 @@
                 dateFormat: "Y-m-d H:i",
                 minDate:"today",
                 maxDate:new Date().fp_incr(30)
-            })
+            });
 
 		});
 

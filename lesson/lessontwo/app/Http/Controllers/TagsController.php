@@ -48,6 +48,7 @@ class TagsController extends Controller
 
         $tag->save();
 
+        session()->flash("success","New Tag Created");
         return redirect(route('tags.index'));
     }
 
@@ -83,6 +84,7 @@ class TagsController extends Controller
     
         $tag->save();
 
+        session()->flash("success","Update Successfully");
         return redirect(route('tags.index'));
     }
 
@@ -94,6 +96,7 @@ class TagsController extends Controller
         $tag = Tag::findOrFail($id);
         $tag->delete();
 
+        session()->flash("info","Delete Successfully");
         return redirect()->back();
     }
 }

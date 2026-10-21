@@ -173,7 +173,7 @@
                 maxDate:new Date().fp_incr(30)
             });
 
-            // Start Single Profile Preview
+            // Start Multi Profile Preview
 
             var previewimages = function(input,output){
 
@@ -194,7 +194,6 @@
                     var filereader = new FileReader();
 
                     filereader.onload = function(e){
-                        $(output).html("");
                         $($.parseHTML('<img>')).attr('src',e.target.result).appendTo(output);
                     }
 
@@ -206,11 +205,11 @@
 
             }
 
-            $("#image").change(function(){
+            $("#images").change(function(){
                 previewimages(this,'label.gallery');
             })
 
-            // End Single Profile Preview
+            // End Multi Profile Preview
 
         });
 

@@ -48,6 +48,7 @@ class CategoriesController extends Controller
 
         $category->save();
 
+        session()->flash("success","New Category Created");
         return redirect(route('categories.index'));
     }
 
@@ -83,6 +84,7 @@ class CategoriesController extends Controller
     
         $category->save();
 
+        session()->flash("success","Update Successfully");
         return redirect(route('categories.index'));
     }
 
@@ -94,6 +96,7 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
 
+        session()->flash("info","Update Successfully");
         return redirect()->back();
     }
 }

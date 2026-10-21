@@ -47,6 +47,7 @@ class GendersController extends Controller
 
         $gender->save();
 
+        session()->flash("success","New Gender Created");
         return redirect(route('genders.index'));
     }
 
@@ -82,6 +83,7 @@ class GendersController extends Controller
     
         $gender->save();
 
+        session()->flash("success","Update Successfully");
         return redirect(route('days.index'));
     }
 
@@ -93,6 +95,7 @@ class GendersController extends Controller
         $gender = Gender::findOrFail($id);
         $gender->delete();
 
+        session()->flash("info","Delete Successfully");
         return redirect()->back();
     }
 }

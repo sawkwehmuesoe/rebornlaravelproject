@@ -48,6 +48,7 @@ class WarehousesController extends Controller
 
         $warehouse->save();
 
+        session()->flash("success","New Warehouse Created");
         return redirect(route('warehouses.index'));
     }
 
@@ -83,6 +84,7 @@ class WarehousesController extends Controller
     
         $warehouse->save();
 
+        session()->flash("success","Update Successfully");
         return redirect(route('warehouses.index'));
     }
 
@@ -94,6 +96,7 @@ class WarehousesController extends Controller
         $warehouse = Warehouse::findOrFail($id);
         $warehouse->delete();
 
+        session()->flash("success","Delete Successfully");
         return redirect()->back();
     }
 }

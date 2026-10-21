@@ -3,4 +3,10 @@
 29 Nov 2024
 
 =Show Error UI (to all files)
-=Validate in Controller
+=Validate in Controller 
+
+-----------------------------------------
+
+13 Dec 2024 
+
+flash message (store,update,destroy) to all controllers except System Controller

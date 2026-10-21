@@ -47,6 +47,7 @@ class DaysController extends Controller
 
         $day->save();
 
+        session()->flash("success","New Day Created");
         return redirect(route('days.index'));
     }
 
@@ -82,6 +83,7 @@ class DaysController extends Controller
     
         $day->save();
 
+        session()->flash("success","Update Successfully");
         return redirect(route('days.index'));
     }
 
@@ -93,6 +95,7 @@ class DaysController extends Controller
         $day = Day::findOrFail($id);
         $day->delete();
 
+        session()->flash("info","Delete Successfully");
         return redirect()->back();
     }
 }
