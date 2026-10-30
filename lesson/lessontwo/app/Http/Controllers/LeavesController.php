@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LeaveRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use App\Models\Leave;
 use App\Models\LeaveFile;
 use App\Models\Post;
+use App\Models\Stage;
 use App\Models\Tag;
 use App\Models\User;
 
@@ -38,19 +41,8 @@ class LeavesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LeaveRequest $request)
     {
-
-        $request->validate([            
-            'post_id' => 'required|array',
-            'post_id.*'=> 'exists:posts,id',
-            'startdate' => 'required|date',
-            'enddate' => 'required|date|after_or_equal:startdate',
-            'tag' => 'required|array',
-            'tag.*'=> 'exists:users,id',
-            'title' => 'required|max:100',
-            'content' => 'required' 
-        ]);
 
         $user = Auth::user();
         $user_id = $user->id;
@@ -95,8 +87,10 @@ class LeavesController extends Controller
     public function show(string $id)
     {
         $leave = Leave::findOrFail($id);
+        $leavefiles = LeaveFile::where('leave_id',$id)->get();
         $users = User::pluck('name','id');
-        return view('leaves.show',["leave"=>$leave,"users"=>$users]);
+        $stages = Stage::whereIn('id',[1,2,3])->where('status_id',3)->get();
+        return view('leaves.show',["leave"=>$leave,"leavefiles"=>$leavefiles,"users"=>$users,"stages"=>$stages]);
     }
 
     /**
@@ -105,6 +99,7 @@ class LeavesController extends Controller
     public function edit(string $id)
     {
         $data['leave'] = Leave::findOrFail($id);
+        $data['leavefiles'] = LeaveFile::where('leave_id',$id)->get(); // load all associate images
         $data['posts'] = Post::where('attshow',3)->orderBy('title','asc')->get()->pluck('title','id');
         $data['tags'] = User::orderBy('name','asc')->get()->pluck('name','id');
         return view('leaves.edit',$data);
@@ -113,19 +108,8 @@ class LeavesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(LeaveRequest $request, string $id)
     {
-        $request->validate([            
-            'post_id' => 'required|array',
-            'post_id.*'=> 'exists:posts,id',
-            'startdate' => 'required|date',
-            'enddate' => 'required|dateafter_or_equal:startdate',
-            'tag' => 'required|array',
-            'tag.*'=> 'exists:users,id',
-            'title' => 'required|max:100',
-            'content' => 'required' 
-        ]);
-
 
         $user = Auth::user();
         $user_id = $user->id;
@@ -136,13 +120,17 @@ class LeavesController extends Controller
         $leave->enddate = $request['enddate'];
         $leave->tag = $request['tag'];
         $leave->title = $request['title'];
-        $leave->content = $request['content'];        
+        $leave->content = $request['content'];
+        
+        if($leave->isconveted()){
+            return redirect()->back()->with('info',"This leave form has already been conveted to an authorize stage. Editing is disable");
+        }
 
         $leave->save();
 
-        
-
         if($request->hasFile('images')){
+
+            $leavefiles = LeaveFile::where('leave_id',$id)->get();
 
             // Remove Old Multi Images 
             foreach($leavefiles as $leavefile){
@@ -154,6 +142,9 @@ class LeavesController extends Controller
                 }
 
             }
+
+            // Delete associated records from the database 
+            $leavefiles = LeaveFile::where('leave_id',$id)->delete();
 
             // Multi Images Upload 
             foreach($request->file('images') as $image){
@@ -185,6 +176,10 @@ class LeavesController extends Controller
         $leave = Leave::findOrFail($id);
         $leavefiles = LeaveFile::where('leave_id',$id)->get();
 
+        if($leave->isconveted()){
+            return redirect()->back()->with('info',"This leave form has already been conveted to an authorize stage. Delete is disable");
+        }
+
         // Remove Old Multi Images
         foreach($leavefiles as $leavefile){
 
@@ -196,10 +191,23 @@ class LeavesController extends Controller
 
         }
 
+        // Delete associated records from the database 
+            $leavefiles = LeaveFile::where('leave_id',$id)->delete();
+
+        // Delete Leave Record
         $leave->delete();
 
         session()->flash('info',"Delete Successfully");
         return redirect()->back();
+    }
+
+    public function updatestage(Request $request,$id){
+        $leave = Leave::findOrFail($id);
+        $leave->stage_id = $request->stage_id;
+        $leave->save();
+
+        session()->flash('info',"Changed Stage");
+        return redirect()->back();  
     }
 }
 

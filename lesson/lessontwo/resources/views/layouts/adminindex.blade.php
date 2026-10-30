@@ -22,6 +22,30 @@
                         <!-- start inner content area -->
                         <div class="row">
 
+                            {{-- Session Error --}}
+                            {{-- @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{session('success')}}
+                                </div>
+                            @endif
+
+                            @if(session('info'))
+                                <div class="alert alert-success">
+                                    {{session('info')}}
+                                </div>
+                            @endif
+
+                          
+                            @if($errors)
+
+                                @foreach ($errors->all() as $error)
+                                    <div class="alert alert-danger">
+                                        {{$error}}
+                                    </div>    
+                                @endforeach
+
+                            @endif --}}
+
                             <!-- start breadcrumb -->
                             <nav>
                                 <ol class="breadcrumb">

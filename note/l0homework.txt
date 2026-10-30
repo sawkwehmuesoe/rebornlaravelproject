@@ -10,3 +10,14 @@
 13 Dec 2024 
 
 flash message (store,update,destroy) to all controllers except System Controller
+
+
+-----------------------------------------
+
+27 Dec 2024 
+
+= Remove all error handling from Form Element (except addon)
+
+
+
+-----------------------------------------

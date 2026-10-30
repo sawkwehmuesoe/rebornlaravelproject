@@ -58,6 +58,10 @@ class Leave extends Model
 
         return $posts;
     }
+
+    public function isconveted(){
+        return $this->stage_id != 2;
+    }
 }
 
 

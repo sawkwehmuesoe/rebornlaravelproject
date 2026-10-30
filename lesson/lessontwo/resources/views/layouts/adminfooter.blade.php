@@ -72,6 +72,25 @@
         <script src="./js/app.js" type="text/javascript"></script>
         {{-- toastr notification --}}
         <script src="{{asset('assets/libs/toastr/toastr-master/build/toastr.min.js')}}"></script>
+
+            @if(Session::has('success'))
+                <script>toastr.success("{{session()->get('success')}}",'Successful')</script>
+            @endif
+
+            @if(Session::has('info'))
+                <script>toastr.info("{{session()->get('info')}}",'Information')</script>
+            @endif
+
+            @if(Session::has('error'))
+                <script>toastr.error("{{session()->get('error')}}",'inconceivable')</script>
+            @endif
+
+            @if($errors)
+                @foreach($errors->all() as $error)
+                    <script>toastr.error("{{$error}}",'Warning',{timeOut:3000})</script>
+                @endforeach
+            @endif
+
         {{-- extra js --}}
         @yield('scripts')
     </body>

@@ -28,6 +28,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::resource('leaves',LeavesController::class);
+    Route::put('/leaves/{id}/updatestage',[LeavesController::class, 'updatestage'])->name('leaves.updatestage');
 
     Route::resource('posts',PostsController::class);
 

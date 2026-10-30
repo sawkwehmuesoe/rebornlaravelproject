@@ -18,8 +18,13 @@
                                 <div class="col-md-12 form-group">
                                     <label for="images" class="gallery">
 
-                                        @if($leave->image)
-                                            <img src="{{asset($leave->image)}}" alt="{{$leave->slug}}" class="img-thumbnail" width="100" height="100">
+                                        @if(!empty($leavefiles) && $leavefiles->count() > 0)
+
+                                            @foreach ($leavefiles as $leavefile)
+                                                <img src="{{asset($leavefile->image)}}" alt="{{$leavefile->id}}" class="img-thumbnail" width="100" height="100">    
+                                            @endforeach
+
+                                            
                                         @else
                                             <span>Choose Images</span>
                                         @endif

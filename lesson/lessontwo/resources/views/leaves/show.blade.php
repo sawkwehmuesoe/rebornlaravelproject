@@ -100,7 +100,6 @@
                         </div>
 
                         <h6>Class</h6>
-
                         <div class="card border-0 rounded-0 shadow mb-4">
                             <div class="card-body d-flex flex-wrap gap-3">
                                 @foreach ($leave->tagposts($leave->post_id) as $id=>$title)
@@ -110,6 +109,75 @@
                                 @endforeach
                             </div>
                         </div>
+
+                        <h6>Control Session</h6>
+                        <div class="card border-0 rounded-0 shadow mb-4">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <button type="button" id="autoclick" class="tablinks" onclick="gettab(event,'contenttab')">Content</button>
+                                </li>                                                   
+                            </ul>
+
+                            <div class="tab-content">
+
+                                <div id="contenttab" class="tab-panel">        
+                                    <p>{!! $leave->content !!}</p>
+
+                                        @if(!empty($leavefiles) && $leavefiles->count() > 0)
+
+                                            @foreach ($leavefiles as $leavefile)
+
+                                                <a href="{{asset($leavefile->image)}}" data-lightbox="image" data-title="{{$leave->title}}" />
+                                                    <img src="{{asset($leavefile->image)}}" alt="{{$leavefile->id}}" class="img-thumbnail" width="100" height="100">    
+                                                </a>
+
+                                            @endforeach                                            
+                                        @else
+                                            <span>No Files</span>
+                                        @endif
+                                </div>                              
+
+                            </div>
+                        </div>  
+
+                        <h6>Additional Info</h6>
+                        <div class="card border-0 rounded-0 shadow mb-4">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <button type="button" id="autoclick" class="tablinks" onclick="gettab(event,'authorizationtag')">Authorization</button>
+                                </li>                                                   
+                            </ul>
+
+                            <div class="tab-content">
+
+                                <div id="authorizationtag" class="tab-panel">
+
+                                    <form action="{{route('leaves.updatestage',$leave->id)}}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="row">                                           
+
+                                            <div class="col-md-6 form-group mb-3">                                               
+                                                <select name="stage_id" id="stage_id" class="form-control form-control-sm rounded-0" value="{{old('stage_id')}}">                                        
+                                                    @foreach($stages as $stage)
+                                                        <option value="{{$stage->id}}" {{$leave->stage_id == $stage->id ? 'selected' : ''}}>{{$stage->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>                                           
+
+                                            <div class="col-md-3">                                                                           
+                                                <button type="submit" class="btn btn-primary btn-sm rounded-0 ms-3" >Update</button>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+            
+                            </div>
+                        </div>  
 
                     </div>
 
@@ -122,6 +190,7 @@
 @endsection
 
 @section('css')
+    <link rel="stylesheet" href="{{asset('assets/libs/lightbox2-dev/dist/css/lightbox.min.css')}}" type="text/css">
 
     <style type="text/css">
         /* Start Accordion */
@@ -167,11 +236,57 @@
             transition: height .3s ease-in-out;
         }
         /* End Accordion */
+
+        /* Start Tab */
+        .nav{
+            display: flex;
+
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav .nav-item{
+            list-style-type: none;
+        }
+
+        .nav .tablinks{
+            font-size: 16px;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+
+            transition: background-color .3s ease-in;
+        }
+
+        .nav .tablinks:hover,.active{
+            background-color: #ddd;
+        }
+
+        .nav .tablinks.active{
+            color: blue;
+        }
+
+        .nav .tablinks:active{
+            background-color: #ccc;
+        }
+
+        .tab-panel{
+            border: 1px solid #ccc;
+            border-top: 0;
+
+            padding: 5px 15px;
+
+            display: none;
+        }
+
+        /* End Tab */
     </style>
 
 @endsection
 
 @section('scripts')
+
+    <script src="{{asset('assets/libs/lightbox2-dev/dist/js/lightbox.min.js')}}" type="text/javascript"></script>
     <script type="text/javascript">
 
         // Start Content Area
@@ -199,6 +314,41 @@
 
 
         // End Content Area
+
+        // Start Tab 
+        var gettablinks = document.getElementsByClassName("tablinks"); //HTML Collection
+        var gettabpanels = document.getElementsByClassName("tab-panel");
+        // var getbtnclose = document.querySelectorAll(".btn-close"); //Note list
+        var tabpanels = Array.from(gettabpanels);
+
+        function gettab(evn,linkid){
+
+            tabpanels.forEach(function(tabpanel){
+                tabpanel.style.display = "none";
+            });
+
+            for(var x=0; x < gettablinks.length; x++){
+                gettablinks[x].className = gettablinks[x].className.replace(" active","");
+
+                // getbtnclose[x].addEventListener('click',function(){
+
+                //     this.parentElement.style.display = "none";
+
+                // });
+            }
+
+            document.getElementById(linkid).style.display = "block";
+            evn.currentTarget.className += " active";
+
+        }
+
+        document.getElementById("autoclick").click();
+        // End Tab
+
+        lightbox.option({
+            'resizeDuration': 100,
+            'wrapAround': true
+        })
 
         $(document).ready(function(){
 
