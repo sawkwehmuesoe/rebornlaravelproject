@@ -1,0 +1,21 @@
+=>Create Notification (Database)
+
+=>Store Notification in the database (optional)
+php artisan notifications:table
+php artisan migrate
+
+=Create a Notification Class 
+php artisan make:notification LeaveTagPersonNotification
+
+=Define Notification Content 
+
+
+=Send the Notification
+
+$tags = $request['tag'];
+        $tagpersons = User::whereIn('id',$tags)->get(); // fetch all user at once
+        Notification::send($tagpersons,new LeaveTagPersonNotification($leave->id,$leave->title,$leave->user_id)); 
+
+----------------------------------------------
+
+=>Create Notification (Email)

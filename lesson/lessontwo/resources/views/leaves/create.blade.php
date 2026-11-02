@@ -24,18 +24,12 @@
                                 </div>
 
                                 <div class="col-md-6 form-group">
-                                    <label for="startdate">Start Date <span class="text-danger">*</span></label>
-                                    @error('startdate')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="startdate">Start Date <span class="text-danger">*</span></label>                                  
                                     <input type="date" name="startdate" id="startdate" class="form-control form-control-sm rounded-0" value="{{old('startdate',$gettoday)}}" />
                                 </div>
 
                                 <div class="col-md-6 form-group">
-                                    <label for="enddate">End Date <span class="text-danger">*</span></label>
-                                    @error('enddate')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="enddate">End Date <span class="text-danger">*</span></label>                                 
                                     <input type="date" name="enddate" id="enddate" class="form-control form-control-sm rounded-0" value="{{old('enddate',$gettoday)}}"/>
                                 </div>
 
@@ -48,18 +42,12 @@
                             <div class="row">
 
                                 <div class="col-md-12 form-group mb-3">
-                                    <label for="title">Title <span class="text-danger">*</span></label>
-                                    @error('title')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="title">Title <span class="text-danger">*</span></label>                                   
                                     <input type="text" name="title" id="title" class="form-control form-control-sm rounded-0" placeholder="Enter Title" value="{{old('title')}}" />
                                 </div>
 
                                 <div class="col-md-6 form-group mb-3">
-                                    <label for="post_id">Class</label>
-                                    @error('post_id')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="post_id">Class</label>                                    
                                     <select name="post_id[]" id="post_id" class="form-control form-control-sm rounded-0" value="{{old('post_id')}}" multiple>                                        
                                         @foreach($posts as $id=>$title)
                                             <option value="{{$id}}" {{old('post_id') == $id ? 'selected' : ''}}>{{$title}}</option>
@@ -68,10 +56,7 @@
                                 </div>
 
                                 <div class="col-md-6 form-group mb-3">
-                                    <label for="tag">Tag</label>
-                                    @error('tag')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="tag">Tag</label>                                    
                                     <select name="tag[]" id="tag" class="form-control form-control-sm rounded-0" multiple >                                        
                                         @foreach($tags as $tag)
                                             <option value="{{$tag['id']}}" {{old('tag') == $tag->id ? 'selected' : ''}} >{{$tag['name']}}</option>
@@ -80,10 +65,7 @@
                                 </div>
 
                                 <div class="col-md-12 form-group mb-3">
-                                    <label for="content">Content <span class="text-danger">*</span></label>                                
-                                    @error('content')
-                                        <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <label for="content">Content <span class="text-danger">*</span></label>                                                                    
                                     <textarea name="content" id="content" rows="5" class="form-control form-control-sm rounded-0">{{old('content')}}</textarea>
                                 </div>  
 

@@ -52,4 +52,18 @@ class LeaveRequest extends FormRequest
 
         
     }
+
+    public function attributes(){
+        return[
+            'post_id'=>'class name',
+            'tag'=>'authorize person'
+        ];
+    }
+
+    public function messages(){
+        return[
+            'post_id.required'=>'class name can\'t be empty',
+            'tag.required'=>'authorize person must be choose'
+        ];
+    }
 }
