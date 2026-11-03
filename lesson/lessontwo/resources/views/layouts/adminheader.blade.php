@@ -2,6 +2,9 @@
 <html>
     <head>
         <title>{{ config('app.name') }}</title>
+
+        <meta charset="utf-8" />
+
         {{-- fav icon --}}
         <link href="{{asset('assets/img/fav/favicon.png')}}" rel="icon" type="image/png" sizes="16x16" />
         {{-- bootstrap css1 js1 --}}
