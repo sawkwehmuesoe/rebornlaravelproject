@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\GendersController;
@@ -26,6 +27,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    Route::resource('/announcements',AnnouncementsController::class);
 
     Route::resource('leaves',LeavesController::class);
     Route::put('/leaves/{id}/updatestage',[LeavesController::class, 'updatestage'])->name('leaves.updatestage');
