@@ -10,6 +10,9 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\AnnouncementEmailNotify;
+
 
 class AnnouncementsController extends Controller
 {
@@ -57,6 +60,10 @@ class AnnouncementsController extends Controller
             $filepath = 'assets/img/announcements/'.$imagenewname;
             $announcement->image = $filepath;
         }
+
+        // => Email Notification to all users 
+        $users = User::all();
+        Notification::send($user,new AnnouncementEmailNotify($announcement->id,$announcement->title,$announcement->content));
   
         $announcement->save();
 
