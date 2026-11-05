@@ -47,7 +47,6 @@ $table->string('lastname')->nullable()
 $table->string('birthday')->nullable()
 $table->unsignedBigInteger('gender_id')->nullable()
 $table->unsignedBigInteger('relative_id')->nullable()
-$table->unsignedBigInteger('user_id')->nullable()
 $table->foreignId('user_id')->constrained(
 	table:'users',
 	indexName:'contacts_users_id'

@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\GendersController;
 use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PaymentTypesController;
+use App\Http\Controllers\RelativesController;
 use App\Http\Controllers\ReligionsController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\StagesController;
@@ -30,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/announcements',AnnouncementsController::class);
 
+    Route::resource('contacts',ContactsController::class);
     Route::resource('leaves',LeavesController::class);
     Route::put('/leaves/{id}/updatestage',[LeavesController::class, 'updatestage'])->name('leaves.updatestage');
 
@@ -47,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('days',DaysController::class);
     Route::resource('genders',GendersController::class);
     Route::resource('paymenttypes',PaymentTypesController::class);
+    Route::resource('relatives',RelativesController::class);
     Route::resource('religions',ReligionsController::class);
     Route::resource('stages',StagesController::class);
     Route::resource('tags',TagsController::class);
