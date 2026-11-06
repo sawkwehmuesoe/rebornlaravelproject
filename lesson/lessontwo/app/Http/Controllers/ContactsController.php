@@ -9,6 +9,12 @@ use App\Models\Gender;
 use App\Models\Relative;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ContactEmailNotify;
+
 class ContactsController extends Controller
 {
     public function index()
@@ -45,6 +51,18 @@ class ContactsController extends Controller
         $contact->user_id = $user_id;
 
         $contact->save();
+
+        // => Email Notification to all users 
+
+        $contactdatas = [
+            "firstname"=>$contact->firstname,
+            "lastname"=>$contact->lastname,
+            "birthday"=>$contact->birthday,
+            "relative"=>$contact->relative["name"],
+            "url"=>url('/')
+        ];
+
+        Notification::send($user,new ContactEmailNotify($contactdatas));
 
         session()->flash("success","New Contact Created");
         return redirect(route('contacts.index'));
@@ -109,5 +127,16 @@ class ContactsController extends Controller
 
         session()->flash("info","Delete Success");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Contact::whereIn('id',$getselectedids)->delete();
+            return Response::json(["success"=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

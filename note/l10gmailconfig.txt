@@ -1,0 +1,26 @@
+=> Gmail Config (1.port forward , 2 app password )
+
+1.Gmail Login 
+
+2.Gmail > Setting Icon > See all settings > Forwarding and POP/IMAP > IMAP access: Enable IMAP on 
+
+3.Gmail > Manage your Google Account > Security > 2-Step Verification > Get started > App password 
+
+
+
+App Name = DLT Student Management Project 
+
+dsvg czll hlos dszv
+
+= .env config
+
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=samuelkhingenwoo1998@gmail.com
+MAIL_PASSWORD="dsvg czll hlos dszv"
+# MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@gmail.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
