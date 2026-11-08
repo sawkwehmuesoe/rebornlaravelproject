@@ -17,6 +17,9 @@ use App\Models\Stage;
 use App\Models\Tag;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class LeavesController extends Controller
 {
     /**
@@ -218,6 +221,16 @@ class LeavesController extends Controller
 
         session()->flash('info',"Changed Stage");
         return redirect()->back();  
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $selectedids = $request->selectedids;
+            Leave::whereIn('id',$selectedids)->delete();
+            return Response::json(['success'=>'Selected data have been deleted successfully.']);
+        }catch(Exception $e){
+            return Response::json(['status'=>'Failed',"message"=>$e->getMessage()]);
+        }
     }
 }
 

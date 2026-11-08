@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Status;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class CategoriesController extends Controller
 {
     public function index()
@@ -98,5 +101,16 @@ class CategoriesController extends Controller
 
         session()->flash("info","Update Successfully");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Category::whereIn('id',$getselectedids)->delete();
+            return Response::json(['success'=>"Selected data have been deletd successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

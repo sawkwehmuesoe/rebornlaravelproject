@@ -62,3 +62,11 @@ $table->timestamps();
 
 1. bulkdeletes to all controller 
 2. bulkdelete routes
+
+----------------------------------------------
+
+14 FEB / 7 Nov 
+
+Bulk Delete ajax to all index page .
+
+----------------------------------------------

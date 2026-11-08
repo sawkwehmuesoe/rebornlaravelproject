@@ -9,6 +9,9 @@ use App\Models\Status;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class RolesController extends Controller
 {
     public function index(){
@@ -127,5 +130,16 @@ class RolesController extends Controller
 
         session()->flash("info","Delete Successfully");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Role::whereIn('id',$getselectedids)->delete();
+            return Response::json(["success"=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

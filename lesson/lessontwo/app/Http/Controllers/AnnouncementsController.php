@@ -10,6 +10,9 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\AnnouncementEmailNotify;
 
@@ -142,5 +145,16 @@ class AnnouncementsController extends Controller
 
         session()->flash("info","Delete Successfully");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Announcement::whereIn('id',$getselectedids)->delete();
+            return Response::json(["success"=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return response()->json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

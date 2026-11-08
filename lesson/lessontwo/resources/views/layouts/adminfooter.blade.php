@@ -69,7 +69,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"></script>
         {{-- custom js js1 --}}
-        <script src="./js/app.js" type="text/javascript"></script>
+        <script src="{{asset('assets/dist/js/app.js')}}" type="text/javascript"></script>
         {{-- toastr notification --}}
         <script src="{{asset('assets/libs/toastr/toastr-master/build/toastr.min.js')}}"></script>
 

@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use App\Models\Day;
 use App\Models\Status;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class DaysController extends Controller
 {
     public function index()
@@ -97,5 +100,16 @@ class DaysController extends Controller
 
         session()->flash("info","Delete Successfully");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Day::whereIn('id',$getselectedids)->delete();
+            return Response::json(['success'=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(['status'=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

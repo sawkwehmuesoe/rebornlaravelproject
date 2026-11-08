@@ -11,6 +11,9 @@ use App\Models\Type;
 use App\Models\Status;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class PostsController extends Controller
 {
     /**
@@ -184,5 +187,16 @@ class PostsController extends Controller
 
         session()->flash("info","Delete Success");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Post::whereIn('id',$getselectedids)->delete();
+            return Response::json(["success"=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }

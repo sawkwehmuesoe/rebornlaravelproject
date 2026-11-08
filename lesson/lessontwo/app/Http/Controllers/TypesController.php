@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use App\Models\Status;
 use App\Models\Type;
 
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+
 class TypesController extends Controller
 {
     /**
@@ -100,5 +103,16 @@ class TypesController extends Controller
 
         session()->flash("info","Delete Successfully");
         return redirect()->back();
+    }
+
+    public function bulkdeletes(Request $request){
+        try{
+            $getselectedids = $request->selectedids;
+            Type::whereIn('id',$getselectedids)->delete();
+            return Response::json(["success"=>"Selected data have been deleted successfully."]);
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return Response::json(["status"=>"Failed","message"=>$e->getMessage()]);
+        }
     }
 }
