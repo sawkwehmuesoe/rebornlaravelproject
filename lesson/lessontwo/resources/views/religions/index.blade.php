@@ -46,18 +46,27 @@
             <div class="col-md-12">
                 <div class="row">
 
-                    <div class="col-md-2 mb-2">
+                    <div class="col-md-6 mb-2">
                         <a href="javascript:void(0);" id="bulkdelete-btn" class="btn btn-danger btn-sm rounded-0">Bulk Delete</a>
                     </div>
 
-                    <div class="col-md-10">
-                        <form action="{{route('religions.store')}}" method="POST">
+                    <div class="col-md-6">
+                        <form action="{{route('religions.index')}}" method="GET">
                         
                             <div class="row justify-content-end">
+
+                                <div class="col-md-4 col-sm-8 mb-2">
+                                    <div class="form-group">
+                                        <select name="statusfilter" id="statusfilter" class="form-select form-select-sm rounded-0">
+                                            <option selected disabled>Choose Status</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 
-                                <div class="col-md-2 col-sm-6 mb-2">
+                                <div class="col-md-4 col-sm-8 mb-2">
                                     <div class="input-group">
                                         <input type="text" name="filtername" id="filtername" class="form-control form-control-sm rounded-0" placeholder="Search..." />
+                                        <a href="{{route('religions.index')}}" id="btn-clear" class="btn btn-secondary btn-sm"><i class="fas fa-sync"></i></a>
                                         <button type="submit" id="search-btn" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
                                     </div>                                    
                                 </div>
@@ -86,7 +95,7 @@
                     </thead>
                     <tbody>
                         @foreach($religions as $idx=>$religion)
-                            <tr>
+                            <tr id="delete_{{$religion->id}}">
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$religion->id}}" />
                                 </td>                              
@@ -141,9 +150,62 @@
             // Single Delete 
 
             // Bulk Delete 
+            $("#bulkdelete-btn").hide();
             $('#selectalls').click(function(){
                 $('.singlechecks').prop('checked',$(this).prop('checked'))
-            })
+            });
+
+            $(document).on('change','.singlechecks',function(){
+                togglebulkdeletebtn();
+            });
+
+            function togglebulkdeletebtn(){
+                let selectedcount = $(".singlechecks:checked").length;
+                console.log(selectedcount);
+
+                if(selectedcount > 0){
+                    $("#bulkdelete-btn").show();
+                }else{
+                    $("#bulkdelete-btn").hide();
+                }
+            }
+
+            $("#bulkdelete-btn").click(function(){
+
+                let getselectedids = [];
+
+                $("input:checkbox[name='singlechecks']:checked").each(function(){
+                    getselectedids.push($(this).val());
+                });
+
+                // console.log(getselectedids);
+
+                $.ajax({
+                    url:"{{route('religions.bulkdeletes')}}",
+                    type:"DELETE",
+                    dataType:"json",
+                    data:{
+                        selectedids:getselectedids,
+                        _token:'{{csrf_token()}}'
+                    },
+                    success:function(response){
+                        console.log(response);
+
+                        if(response){
+                            // ui remove 
+
+                            $.each(getselectedids,function(key,val){
+                                $(`#delete_${val}`).remove();
+                            });
+                        }
+
+                    },
+                    error:function(response){
+                        console.log("Error : ",response);
+                    }
+                })
+
+            });
             // Bulk Delete
 
         });

@@ -70,3 +70,9 @@ $table->timestamps();
 Bulk Delete ajax to all index page .
 
 ----------------------------------------------
+
+21 FEB / Nov 9
+
+pagination & filter functions to all index page.
+
+----------------------------------------------

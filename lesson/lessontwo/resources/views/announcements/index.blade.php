@@ -28,6 +28,9 @@
                                     <div class="form-group">
                                         <select name="statusfilter" id="statusfilter" class="form-select form-select-sm rounded-0">
                                             <option selected disabled>Choose Status</option>
+                                            @foreach ($statuses as $status)
+                                                <option value="{{$status->id}}" {{request('statusfilter') == $status->id ? 'selected' : ''}}>{{$status->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -55,10 +58,9 @@
                             </th>
                             <th>No</th>
                             <th>Title</th>
-                            <th>Tag</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>                                                        
-                            <th>Stage ID</th>                            
+                            <th>Content</th>                                                                               
+                            <th>Post ID</th>
+                            <th>Status</th>                            
                             <th>By</th>
                             <th>Create at</th>
                             <th>Update at</th>
@@ -71,10 +73,34 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$announcement->id}}" />
                                 </td> 
-                                <td>{{++$idx}}</td>                              
+                                {{-- <td>{{$idx + $announcements->firstItem()}}</td> Easy way--}}
                                 
-                                <td><a href="{{route('announcements.show',$announcement->id)}}">{{Str::limit($announcement->title,20)}}</a></td>                        
-                        
+                                {{-- (1-1) x 5 + 0 + 1 --}}
+                                {{-- 0 + 0 + 1 --}}
+                                {{-- 1 --}}
+
+                                {{-- (2-1) x 5 + 0 + 1 --}}
+                                {{-- 0 + 0 + 1 --}}
+                                {{-- 6 --}}
+
+                                <td>{{($announcements->currentPage() - 1) * $announcements->perPage() + $idx + 1}}</td>
+                                <td><a href="{{route('announcements.show',$announcement->id)}}">{{Str::limit($announcement->title,30)}}</a></td>                        
+                                
+                                {{-- <td>{{ Str::limit($announcement->content,20) }}</td> --}}
+                                {{-- <td>{!! Str::limit($announcement->content,20) !!}</td> --}}
+                                <td>{{ Str::limit(strip_tags($announcement->content), 20) }}</td>
+
+                                <td>
+                                    @php
+                                        $postids = json_decode($announcement->post_id,true);
+                                        $postnames = collect($postids)->map(function($id) use ($posts){
+                                            return $posts[$id] ?? 'Unknow';
+                                        });
+                                    @endphp
+
+                                    {{$postnames->join(", ")}}
+                                </td>
+                                <td>{{$announcement['status']['name']}}</td>
                                 <td>{{$announcement['user']['name']}}</td>
                                 <td>{{$announcement->created_at->format('d M Y')}}</td>
                                 <td>{{$announcement->updated_at->format('d M Y')}}</td>
@@ -90,6 +116,10 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{-- {{$announcements->links()}} --}}
+                {{-- {{$announcements->links('pagination::bootstrap-4')}} --}}
+                {{$announcements->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

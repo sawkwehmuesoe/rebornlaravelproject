@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('daysbulkdeletes',[DaysController::class,'bulkdeletes'])->name('days.bulkdeletes');
 
     Route::resource('genders',GendersController::class);
+    Route::delete('gendersbulkdeletes',[GendersController::class,'bulkdeletes'])->name('genders.bulkdeletes');
+
     Route::resource('paymenttypes',PaymentTypesController::class);
     Route::delete('paymenttypesbulkdeletes',[PaymentTypesController::class,'bulkdeletes'])->name('paymenttypes.bulkdeletes');
 

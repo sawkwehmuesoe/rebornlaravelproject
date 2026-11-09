@@ -32,7 +32,7 @@ class PaymentTypesController extends Controller
     {
 
         $request->validate([
-            'name'=>'required|unique:paymenttypes,name',
+            'name'=>'required|unique:payment_types,name',
             'status_id'=>'required|in:3,4'
         ]);
 
@@ -73,6 +73,11 @@ class PaymentTypesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'name'=>'required|unique:payment_types,name',
+            'status_id'=>'required|in:3,4'
+        ]);
+        
         $user = Auth::user();       
         $user_id = $user->id;
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Status;
 use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Response;
@@ -19,10 +20,28 @@ use App\Notifications\AnnouncementEmailNotify;
 
 class AnnouncementsController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
-        $announcements = Announcement::all();          
-        return view('announcements.index',compact('announcements'));
+        // $announcements = Announcement::paginate(10); 
+
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Announcement::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('title','like','%'.$namefilter.'%');
+        }
+
+        $announcements = $query->paginate(5)->appends($request->except('page'));
+
+        $posts = Post::pluck('title','id');         
+        $statuses = Status::whereIn('id',[3,4])->get();
+        return view('announcements.index',compact('announcements','posts','statuses'));
 
     }
 
