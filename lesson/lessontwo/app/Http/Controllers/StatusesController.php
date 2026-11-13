@@ -15,9 +15,17 @@ class StatusesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $statuses = Status::all();     
+    public function index(Request $request)
+    {        
+        $namefilter = $request['namefilter'];
+
+        $query = Status::query();
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $statuses = $query->paginate(5)->appends($request->except('page'));  
         return view('statuses.index',compact('statuses'));
     }
 

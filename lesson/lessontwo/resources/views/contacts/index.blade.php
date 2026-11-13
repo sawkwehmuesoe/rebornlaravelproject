@@ -20,13 +20,14 @@
                     </div>
 
                     <div class="col-md-10">
-                        <form action="{{route('contacts.store')}}" method="POST">
+                        <form action="{{route('contacts.index')}}" method="GET">
                         
                             <div class="row justify-content-end">
                                 
                                 <div class="col-md-2 col-sm-6 mb-2">
                                     <div class="input-group">
-                                        <input type="text" name="filtername" id="filtername" class="form-control form-control-sm rounded-0" placeholder="Search..." />
+                                        <input type="text" name="namefilter" id="namefilter" class="form-control form-control-sm rounded-0" placeholder="Search..." />
+                                        <a href="{{route('contacts.index')}}" id="btn-clear" class="btn btn-secondary btn-sm"><i class="fas fa-sync"></i></a>
                                         <button type="submit" id="search-btn" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
                                     </div>                                    
                                 </div>
@@ -62,7 +63,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$contact->id}}" />
                                 </td> 
-                                <td>{{++$idx}}</td>                                
+                                <td>{{($contacts->currentPage() - 1) * $contacts->perPage() + $idx + 1}}</td>                                
                                 <td>{{$contact->firstname}}</td>
                                 <td>{{$contact->lastname}}</td>
                                 <td>{{$contact->gender->name}}</td>
@@ -88,6 +89,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{-- {{$contacts->links()}} --}}
+                {{$contacts->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

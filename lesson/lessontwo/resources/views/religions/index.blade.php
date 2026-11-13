@@ -59,13 +59,16 @@
                                     <div class="form-group">
                                         <select name="statusfilter" id="statusfilter" class="form-select form-select-sm rounded-0">
                                             <option selected disabled>Choose Status</option>
+                                            @foreach ($statuses as $status)
+                                                <option value="{{$status->id}}" {{request('statusfilter') == $status->id ? 'selected' : ""}}>{{$status->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-4 col-sm-8 mb-2">
                                     <div class="input-group">
-                                        <input type="text" name="filtername" id="filtername" class="form-control form-control-sm rounded-0" placeholder="Search..." />
+                                        <input type="text" name="namefilter" id="namefilter" class="form-control form-control-sm rounded-0" placeholder="Search..." />
                                         <a href="{{route('religions.index')}}" id="btn-clear" class="btn btn-secondary btn-sm"><i class="fas fa-sync"></i></a>
                                         <button type="submit" id="search-btn" class="btn btn-secondary btn-sm"><i class="fas fa-search"></i></button>
                                     </div>                                    
@@ -99,7 +102,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$religion->id}}" />
                                 </td>                              
-                                <td>{{++$idx}}</td>
+                                <td>{{($religions->currentPage() - 1) * $religions->perPage() + $idx + 1}}</td>
                                 <td>{{$religion->name}}</td>
                                 <td>{{$religion->status->name}}</td>
                                 <td>{{$religion['user']['name']}}</td>
@@ -117,6 +120,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$religions->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

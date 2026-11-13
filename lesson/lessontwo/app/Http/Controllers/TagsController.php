@@ -14,9 +14,22 @@ use Illuminate\Support\Facades\Log;
 
 class TagsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tags = Tag::all();
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Tag::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $tags = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('tags.index',compact('tags','statuses'));
     }

@@ -53,6 +53,9 @@
                                     <div class="form-group">
                                         <select name="statusfilter" id="statusfilter" class="form-select form-select-sm rounded-0">
                                             <option selected disabled>Choose Status</option>
+                                            @foreach ($statuses as $status)
+                                                <option value="{{$status->id}}" {{request('statusfilter') == $status->id ? 'selected' : ""}}>{{$status->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -93,7 +96,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$paymenttype->id}}" />
                                 </td>                              
-                                <td>{{++$idx}}</td>
+                                <td>{{($paymenttypes->currentPage() - 1) * $paymenttypes->perPage() + $idx + 1}}</td>
                                 <td>{{$paymenttype->name}}</td>
                                 <td>{{$paymenttype->status->name}}</td>
                                  <td>{{$paymenttype['user']['name']}}</td>
@@ -111,6 +114,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{$paymenttypes->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

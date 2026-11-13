@@ -13,14 +13,14 @@
     <section class="vh-100 d-flex justify-content-center align-items-center">
 
         <div class="bg-white p-4">
-            <h5>Sign In</h5>
+            <h6 class="mb-3">Sign In</h6>
             
             <form action="{{ route('login') }}" method="POST" >
                 @csrf
 
                 <!-- Email Address -->
                 <div class="form-group mb-3">                    
-                    <input type="email" name="email" id="email" class="form-control form-control-sm rounded-0 @error('email') is-valid @enderror" placeholder="Username" value="{{old('email')}}" autofocus  />                    
+                    <input type="email" name="email" id="email" class="form-control form-control-sm rounded-0 @error('email') is-valid @enderror" placeholder="Email" value="{{old('email')}}" autofocus  />                    
                     {{-- @error('email')
                         <span class="invalid-feedback">
                             <strong>{{$message}}</strong>

@@ -28,11 +28,14 @@
                                     <div class="form-group">
                                         <select name="statusfilter" id="statusfilter" class="form-select form-select-sm rounded-0">
                                             <option selected disabled>Choose Status</option>
+                                            @foreach ($statuses as $status)
+                                                <option value="{{$status->id}}" {{request('statusfilter') == $status->id ? 'selected' : ""}}>{{$status->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-2 col-sm-6 mb-2">
+                                <div class="col-md-4 col-sm-8 mb-2">
                                     <div class="input-group">
                                         <input type="text" name="namefilter" id="namefilter" class="form-control form-control-sm rounded-0" placeholder="Search..." />
                                         <a href="{{route('roles.index')}}" id="btn-clear" class="btn btn-secondary btn-sm"><i class="fas fa-sync"></i></a>
@@ -68,7 +71,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$role->id}}" />
                                 </td> 
-                                <td>{{++$idx}}</td>
+                                <td>{{($roles->currentPage() - 1) * $roles->perPage() + $idx + 1}}</td>
                                 <td><img src="{{asset($role->image)}}" class="rounded-circle me-2" width="20" height="20" alt=""><a href="{{route('roles.show',$role->id)}}">{{$role->name}}</a></td>
                                 <td>{{$role->status->name}}</td>
                                 <td>{{$role['user']['name']}}</td>
@@ -86,6 +89,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{$roles->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

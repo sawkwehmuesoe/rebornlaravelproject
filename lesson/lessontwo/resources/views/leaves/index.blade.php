@@ -72,7 +72,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$leave->id}}" />
                                 </td> 
-                                <td>{{++$idx}}</td>
+                                <td>{{($leaves->currentPage() - 1) * $leaves->perPage() + $idx + 1}}</td>
                                 <td><a href="{{route('leaves.show',$leave->id)}}">{{Str::limit($leave->title,20)}}</a></td>
                                 <td>
                                     @php
@@ -104,6 +104,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$leaves->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

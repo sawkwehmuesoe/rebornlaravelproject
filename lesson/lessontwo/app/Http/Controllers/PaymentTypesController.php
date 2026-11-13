@@ -10,9 +10,22 @@ use App\Models\Status;
 
 class PaymentTypesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $paymenttypes = PaymentType::all();
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = PaymentType::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $paymenttypes = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('paymenttypes.index',compact('paymenttypes','statuses'));
     }

@@ -16,9 +16,22 @@ class TypesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $types = Type::all();
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Type::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $types = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('types.index',compact('types','statuses'));
     }

@@ -13,9 +13,22 @@ use Illuminate\Support\Facades\Log;
 
 class GendersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $genders = Gender::all();
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Gender::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        };
+
+        $genders = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('genders.index',compact('genders','statuses'));
     }

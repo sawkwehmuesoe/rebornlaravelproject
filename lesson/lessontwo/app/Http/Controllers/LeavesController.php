@@ -25,9 +25,17 @@ class LeavesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $leaves = Leave::all();
+        $namefilter = $request['namefilter'];
+
+        $query = Leave::query();
+
+        if($namefilter){
+            $query->where('title','like','%'.$namefilter.'%');
+        }
+
+        $leaves = $query->paginate(5)->appends($request->except('page'));
         $users = User::pluck('name','id');
         return view('leaves.index',compact('leaves','users'));
     }

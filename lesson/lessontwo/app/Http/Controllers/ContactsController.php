@@ -17,9 +17,19 @@ use App\Notifications\ContactEmailNotify;
 
 class ContactsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['contacts'] = Contact::all();
+
+        $namefilter = $request['namefilter'];
+
+        $query = Contact::query();
+
+        if($namefilter){
+            $query->where('firstname','like','%'.$namefilter.'%');
+        }
+
+        $data['contacts'] = $query->paginate(5)->appends($request->except('page'));
+
         $genders = Gender::orderBy('id','asc')->pluck('name','id');
         $relatives = Relative::pluck('name','id')->prepend('Choose relative',"");
         return view('contacts.index',compact('genders','relatives'),$data);

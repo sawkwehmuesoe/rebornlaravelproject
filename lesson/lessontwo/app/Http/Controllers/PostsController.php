@@ -19,9 +19,17 @@ class PostsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $posts = Post::all();
+    public function index(Request $request)
+    {        
+        $namefilter = $request['namefilter'];
+
+        $query = Post::query();
+        
+        if($namefilter){
+            $query->where('title','like','%'.$namefilter.'%');
+        }
+
+        $posts = $query->paginate(5)->appends($request->except('page'));
         return view('posts.index',compact('posts'));
     }
 

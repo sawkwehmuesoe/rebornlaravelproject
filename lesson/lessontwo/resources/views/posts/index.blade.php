@@ -78,7 +78,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$post->id}}" />
                                 </td> 
-                                <td>{{++$idx}}</td>
+                                <td>{{($posts->currentPage() - 1) * $posts->perPage() + $idx + 1}}</td>
                                 <td><img src="{{asset($post->image)}}" class="rounded-circle me-2" width="20" height="20" alt=""><a href="{{route('posts.show',$post->id)}}">{{$post->name}}</a></td>
                                 <td>{{$post->title}}</td>
                                 <td>{{$post->content}}</td>
@@ -108,6 +108,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$posts->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

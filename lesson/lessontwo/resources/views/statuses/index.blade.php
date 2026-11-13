@@ -84,7 +84,7 @@
                                 <td>
                                     <input type="checkbox" name="singlechecks" class="form-check-input singlechecks" value="{{$status->id}}" />
                                 </td>                              
-                                <td>{{++$idx}}</td>
+                                <td>{{($statuses->currentPage() - 1) * $statuses->perPage() + $idx + 1}}</td>
                                 <td>{{$status->name}}</td>
                                 <!-- <td>{{$status->user['name']}}</td> -->
                                  <td>{{$status['user']['name']}}</td>
@@ -102,6 +102,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{$statuses->links('pagination::bootstrap-5')}}
             </div>
         </div>
         

@@ -13,9 +13,22 @@ use Illuminate\Support\Facades\Log;
 
 class ReligionsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $religions = Religion::all();
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Religion::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $religions = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('religions.index',compact('religions','statuses'));
     }

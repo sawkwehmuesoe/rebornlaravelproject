@@ -13,9 +13,23 @@ use Illuminate\Support\Facades\Log;
 
 class StagesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $stages = Stage::all();
+        
+        $statusfilter = $request->input('statusfilter');
+        $namefilter = $request['namefilter'];
+
+        $query = Stage::query();
+
+        if($statusfilter){
+            $query->where('status_id',$statusfilter);
+        }
+
+        if($namefilter){
+            $query->where('name','like','%'.$namefilter.'%');
+        }
+
+        $stages = $query->paginate(5)->appends($request->except('page'));
         $statuses = Status::whereIn('id',[3,4])->get();     
         return view('stages.index',compact('stages','statuses'));
     }
